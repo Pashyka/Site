@@ -260,67 +260,146 @@
 
     .hero-visual {
       position: relative;
-      min-height: 380px;
+      min-height: 400px;
       border-radius: var(--radius-lg);
-      background: linear-gradient(140deg, #f4b3b3, #eb7b7b, #e54b4b);
+      background:
+        radial-gradient(110% 90% at 18% 6%, rgba(255, 247, 236, 0.42) 0%, rgba(255, 247, 236, 0) 52%),
+        linear-gradient(148deg, #cd5d50 0%, #db6f5c 36%, #e98867 69%, #f3b483 100%);
       overflow: hidden;
-      display: grid;
-      place-items: center;
       color: #fff;
-    }
-
-    .hero-visual::before,
-    .hero-visual::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
+      padding: 26px;
+      display: flex;
+      align-items: flex-end;
     }
 
     .hero-visual::before {
-      width: 240px;
-      height: 240px;
-      top: -40px;
-      right: -30px;
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      top: -140px;
+      right: -90px;
+      border-radius: 50%;
+      border: 38px solid rgba(255, 231, 209, 0.25);
+      pointer-events: none;
     }
 
     .hero-visual::after {
-      width: 180px;
-      height: 180px;
-      bottom: -30px;
-      left: -20px;
-    }
-
-    .hero-plate {
-      width: min(360px, 70%);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background: radial-gradient(circle at 40% 40%, #fffaf2 0%, #f1d2b3 60%, #e0a86b 100%);
-      box-shadow: inset 0 0 0 18px rgba(255, 255, 255, 0.4), 0 20px 40px rgba(0, 0, 0, 0.2);
-      position: relative;
-    }
-
-    .hero-plate::before,
-    .hero-plate::after {
       content: "";
       position: absolute;
-      border-radius: 50%;
-      background: #f6f0e9;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 45%),
+        radial-gradient(42% 52% at 72% 86%, rgba(125, 32, 24, 0.2), rgba(125, 32, 24, 0));
+      pointer-events: none;
     }
 
-    .hero-plate::before {
-      width: 60px;
-      height: 60px;
-      top: 25%;
-      left: 18%;
+    .hero-visual-orbit {
+      position: absolute;
+      inset: 66px 34px 140px;
+      border-radius: 28px;
+      background: radial-gradient(circle at 50% 50%, rgba(248, 225, 196, 0.74) 0%, rgba(248, 225, 196, 0.08) 72%);
+      border: 1px solid rgba(255, 233, 214, 0.38);
+      box-shadow: inset 0 0 0 1px rgba(255, 231, 209, 0.22);
+      z-index: 1;
+      pointer-events: none;
     }
 
-    .hero-plate::after {
-      width: 70px;
-      height: 70px;
-      bottom: 20%;
-      right: 18%;
+    .hero-dumpling {
+      position: absolute;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 35% 32%, #fff9ef 0%, #f8e8d2 60%, #ebd0ab 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(196, 132, 76, 0.25),
+        0 8px 18px rgba(119, 43, 24, 0.2);
+    }
+
+    .hero-dumpling.d-1 {
+      width: 90px;
+      height: 74px;
+      left: 14%;
+      top: 30%;
+      transform: rotate(-10deg);
+    }
+
+    .hero-dumpling.d-2 {
+      width: 82px;
+      height: 68px;
+      left: 37%;
+      top: 16%;
+      transform: rotate(7deg);
+    }
+
+    .hero-dumpling.d-3 {
+      width: 94px;
+      height: 76px;
+      right: 17%;
+      top: 34%;
+      transform: rotate(-6deg);
+    }
+
+    .hero-dumpling.d-4 {
+      width: 82px;
+      height: 66px;
+      left: 52%;
+      bottom: 16%;
+      transform: rotate(12deg);
+    }
+
+    .hero-visual-content {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 430px);
+      margin: 0 auto;
+      background: rgba(62, 24, 16, 0.33);
+      border: 1px solid rgba(255, 236, 219, 0.28);
+      border-radius: 20px;
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      padding: 16px 18px;
+      box-shadow: 0 14px 26px rgba(76, 20, 14, 0.2);
+    }
+
+    .hero-visual-kicker {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 242, 232, 0.9);
+      margin-bottom: 10px;
+    }
+
+    .hero-visual-title {
+      font-family: "Prata", serif;
+      font-size: 24px;
+      line-height: 1.22;
+      margin-bottom: 10px;
+    }
+
+    .hero-visual-copy {
+      font-size: 14px;
+      line-height: 1.45;
+      color: rgba(255, 239, 226, 0.92);
+      margin-bottom: 12px;
+    }
+
+    .hero-visual-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .hero-visual-tags span {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 236, 219, 0.32);
+      background: rgba(255, 255, 255, 0.16);
+      padding: 5px 10px;
+      font-size: 12px;
+      line-height: 1.2;
+      color: rgba(255, 246, 238, 0.96);
+      white-space: nowrap;
     }
 
     .section {
@@ -1577,9 +1656,49 @@
         gap: 10px;
       }
 
-      .hero-visual .eyebrow {
-        letter-spacing: 0.12em;
-        line-height: 1.35;
+      .hero-visual {
+        padding: 16px;
+      }
+
+      .hero-visual-orbit {
+        inset: 56px 18px 130px;
+      }
+
+      .hero-dumpling.d-1 {
+        width: 72px;
+        height: 60px;
+      }
+
+      .hero-dumpling.d-2 {
+        width: 64px;
+        height: 54px;
+      }
+
+      .hero-dumpling.d-3 {
+        width: 74px;
+        height: 62px;
+      }
+
+      .hero-dumpling.d-4 {
+        width: 64px;
+        height: 54px;
+      }
+
+      .hero-visual-content {
+        padding: 13px 14px;
+      }
+
+      .hero-visual-kicker {
+        letter-spacing: 0.11em;
+        font-size: 10px;
+      }
+
+      .hero-visual-title {
+        font-size: 20px;
+      }
+
+      .hero-visual-copy {
+        font-size: 13px;
       }
 
       .btn {
@@ -1801,9 +1920,21 @@
           </div>
         </div>
         <div class="hero-visual animate delay-1">
-          <div>
-            <div class="eyebrow">Собственное производство на Урале</div>
-            <div class="hero-plate" aria-hidden="true"></div>
+          <div class="hero-visual-orbit" aria-hidden="true">
+            <span class="hero-dumpling d-1"></span>
+            <span class="hero-dumpling d-2"></span>
+            <span class="hero-dumpling d-3"></span>
+            <span class="hero-dumpling d-4"></span>
+          </div>
+          <div class="hero-visual-content">
+            <div class="hero-visual-kicker">Собственное производство на Урале</div>
+            <div class="hero-visual-title">Ручная лепка и честный состав</div>
+            <p class="hero-visual-copy">Полуфабрикаты категории А, замороженные по ТУ 10.13.14-006-03446423-2022.</p>
+            <div class="hero-visual-tags">
+              <span>Тонкое эластичное тесто</span>
+              <span>Натуральный мясной фарш</span>
+              <span>Шоковая заморозка</span>
+            </div>
           </div>
         </div>
       </div>

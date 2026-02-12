@@ -7,6 +7,7 @@
   <meta name="description" content="Каталог Уральских пельмешек: пельмени, вареники, манты и домашние полуфабрикаты с доставкой по Москве и области." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://optim.tildacdn.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Prata&family=Onest:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -440,6 +441,8 @@
       border: 1px solid rgba(28, 23, 20, 0.08);
       padding: 22px;
       gap: 16px;
+      content-visibility: auto;
+      contain-intrinsic-size: 320px;
     }
 
     .catalog-card:hover {
@@ -453,6 +456,25 @@
       border-radius: 18px;
       background: #f5e4d5 center/cover no-repeat;
       box-shadow: 0 10px 22px rgba(28, 23, 20, 0.12);
+    }
+
+    .catalog-card .thumb.is-loading,
+    .product .thumb.is-loading {
+      background-color: #f5e4d5;
+      background-image: linear-gradient(100deg, #f5e4d5 0%, #fbeedf 38%, #f5e4d5 72%);
+      background-size: 220% 100%;
+      animation: thumbShimmer 1.25s linear infinite;
+    }
+
+    .catalog-card .thumb.is-ready,
+    .product .thumb.is-ready {
+      animation: none;
+    }
+
+    @keyframes thumbShimmer {
+      to {
+        background-position: -220% 0;
+      }
     }
 
     .catalog-card h3 {
@@ -498,6 +520,8 @@
       background: #fff;
       padding: 18px;
       box-shadow: 0 10px 24px rgba(28, 23, 20, 0.08);
+      content-visibility: auto;
+      contain-intrinsic-size: 520px;
     }
 
     .product .thumb {
@@ -1611,32 +1635,32 @@
         </div>
         <div class="grid grid-3">
           <a class="card catalog-card" href="#cat-pelmeni-hand">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3530-3237-4336-b632-303761323261/-/format/webp/ca3c3b07b310273651ac496dcc36e70f.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3530-3237-4336-b632-303761323261/-/format/webp/ca3c3b07b310273651ac496dcc36e70f.jpg.webp"></div>
             <h3>Пельмешки ручной лепки</h3>
             <p>Эталонный вкус, сочная начинка и тонкое тесто. Та самая домашняя классика.</p>
           </a>
           <a class="card catalog-card" href="#cat-vareniki">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6361-3262-4134-a233-626666343864/-/format/webp/bbb4ad03bc96fc1897c51c5b84ef26ec.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6361-3262-4134-a233-626666343864/-/format/webp/bbb4ad03bc96fc1897c51c5b84ef26ec.jpg.webp"></div>
             <h3>Вареники</h3>
             <p>От нежных творожных и ягодных до сытных с картошкой, грибами и салом.</p>
           </a>
           <a class="card catalog-card" href="#cat-manty">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6233-6439-4535-b230-366338376661/-/format/webp/40607f56e1f5b22979f1d1c4aeb9c2cd.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6233-6439-4535-b230-366338376661/-/format/webp/40607f56e1f5b22979f1d1c4aeb9c2cd.jpg.webp"></div>
             <h3>Манты, хинкали, чебуреки</h3>
             <p>Ручная лепка сохраняет внутри бульон, делая каждую порцию сочной.</p>
           </a>
           <a class="card catalog-card" href="#cat-blinchiki">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6563-6631-4537-a435-343336633231/-/format/webp/1d09c91f32aff8c76100ddb68528a191.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6563-6631-4537-a435-343336633231/-/format/webp/1d09c91f32aff8c76100ddb68528a191.jpg.webp"></div>
             <h3>Блинчики с начинкой</h3>
             <p>Тонкие блинчики с любимыми начинками для завтраков и десертов.</p>
           </a>
           <a class="card catalog-card" href="#cat-polufab">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3963-6563-4262-a264-303337623063/-/format/webp/aafbfbaba00f51f97982ecb61b46ef24.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3963-6563-4262-a264-303337623063/-/format/webp/aafbfbaba00f51f97982ecb61b46ef24.jpg.webp"></div>
             <h3>Замороженные полуфабрикаты</h3>
             <p>Домашние котлеты, фрикадельки и голубцы из отборного мяса.</p>
           </a>
           <a class="card catalog-card" href="#cat-auto">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <h3>Пельмешки автоматной лепки</h3>
             <p>Быстрый вариант для ежедневных ужинов и семейных запасов.</p>
           </a>
@@ -1653,7 +1677,7 @@
         </div>
         <div class="grid grid-3" id="handPelmeniGrid">
           <article class="product" data-id="pelmeni-beef-pork" data-price="1300" data-image="https://optim.tildacdn.com/stor3863-3335-4863-a238-333038353538/-/format/webp/676b289183d23623e24ed10a05a7c8bf.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3863-3335-4863-a238-333038353538/-/format/webp/676b289183d23623e24ed10a05a7c8bf.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3863-3335-4863-a238-333038353538/-/format/webp/676b289183d23623e24ed10a05a7c8bf.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 300 ₽</span>
@@ -1666,7 +1690,7 @@
             </div>
           </article>
           <article class="product" data-id="pelmeni-elite" data-price="1400" data-image="https://optim.tildacdn.com/stor3530-3237-4336-b632-303761323261/-/format/webp/ca3c3b07b310273651ac496dcc36e70f.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3530-3237-4336-b632-303761323261/-/format/webp/ca3c3b07b310273651ac496dcc36e70f.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3530-3237-4336-b632-303761323261/-/format/webp/ca3c3b07b310273651ac496dcc36e70f.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 400 ₽</span>
@@ -1679,7 +1703,7 @@
             </div>
           </article>
           <article class="product" data-id="pelmeni-beef-turkey" data-price="1350" data-image="https://optim.tildacdn.com/stor6363-3832-4664-b933-393062343236/-/format/webp/9ab189ab8271ec509aa51c0f6c333edd.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6363-3832-4664-b933-393062343236/-/format/webp/9ab189ab8271ec509aa51c0f6c333edd.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6363-3832-4664-b933-393062343236/-/format/webp/9ab189ab8271ec509aa51c0f6c333edd.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 350 ₽</span>
@@ -1692,7 +1716,7 @@
             </div>
           </article>
           <article class="product" data-id="pelmeni-sitnye" data-price="1250" data-image="https://optim.tildacdn.com/stor3336-3336-4233-b364-366132616432/-/format/webp/15a68b9eb64aa505b14e83bb45104d44.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3336-3336-4233-b364-366132616432/-/format/webp/15a68b9eb64aa505b14e83bb45104d44.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3336-3336-4233-b364-366132616432/-/format/webp/15a68b9eb64aa505b14e83bb45104d44.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 250 ₽</span>
@@ -1705,7 +1729,7 @@
             </div>
           </article>
           <article class="product" data-id="pelmeni-zakus" data-price="1100" data-image="https://optim.tildacdn.com/stor6632-6264-4063-b639-333731663637/-/format/webp/5c3e5002a7d7d2a522f4078756c6edeb.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6632-6264-4063-b639-333731663637/-/format/webp/5c3e5002a7d7d2a522f4078756c6edeb.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6632-6264-4063-b639-333731663637/-/format/webp/5c3e5002a7d7d2a522f4078756c6edeb.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 100 ₽</span>
@@ -1718,7 +1742,7 @@
             </div>
           </article>
           <article class="product" data-id="pelmeni-semeinye" data-price="1300" data-image="https://optim.tildacdn.com/stor3863-3464-4235-a335-653164383538/-/format/webp/ddb9303483ec6c69ee212bcf131a94ce.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3863-3464-4235-a335-653164383538/-/format/webp/ddb9303483ec6c69ee212bcf131a94ce.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3863-3464-4235-a335-653164383538/-/format/webp/ddb9303483ec6c69ee212bcf131a94ce.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 300 ₽</span>
@@ -1731,7 +1755,7 @@
             </div>
           </article>
           <article class="product" data-id="pelmeni-kolibri" data-price="1600" data-image="https://optim.tildacdn.com/stor3661-6365-4262-a136-656437633833/-/format/webp/7ead4509f23448325f7757c753501716.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3661-6365-4262-a136-656437633833/-/format/webp/7ead4509f23448325f7757c753501716.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3661-6365-4262-a136-656437633833/-/format/webp/7ead4509f23448325f7757c753501716.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 600 ₽</span>
@@ -1756,7 +1780,7 @@
         </div>
         <div class="grid grid-3">
           <article class="product" data-id="vareniki-potato-onion" data-price="750" data-image="https://optim.tildacdn.com/stor6138-3331-4132-b261-373966306462/-/format/webp/5cc0cb7de2bd17d282d22a85af9daa91.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6138-3331-4132-b261-373966306462/-/format/webp/5cc0cb7de2bd17d282d22a85af9daa91.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6138-3331-4132-b261-373966306462/-/format/webp/5cc0cb7de2bd17d282d22a85af9daa91.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">750 ₽</span>
@@ -1769,7 +1793,7 @@
             </div>
           </article>
           <article class="product" data-id="vareniki-potato-mushrooms" data-price="570" data-image="https://optim.tildacdn.com/stor6561-6264-4536-a436-303938393936/-/format/webp/5f0083652e11117103d7f29d2df54d2e.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6561-6264-4536-a436-303938393936/-/format/webp/5f0083652e11117103d7f29d2df54d2e.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6561-6264-4536-a436-303938393936/-/format/webp/5f0083652e11117103d7f29d2df54d2e.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">570 ₽</span>
@@ -1782,7 +1806,7 @@
             </div>
           </article>
           <article class="product" data-id="vareniki-raw-potato-bacon" data-price="800" data-image="https://optim.tildacdn.com/stor3231-6631-4631-b165-343135396566/-/format/webp/b986c4de6115139235f9d3a7a0d57d81.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3231-6631-4631-b165-343135396566/-/format/webp/b986c4de6115139235f9d3a7a0d57d81.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3231-6631-4631-b165-343135396566/-/format/webp/b986c4de6115139235f9d3a7a0d57d81.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">800 ₽</span>
@@ -1795,7 +1819,7 @@
             </div>
           </article>
           <article class="product" data-id="vareniki-sauerkraut" data-price="900" data-image="https://optim.tildacdn.com/stor3132-6231-4438-a235-663466303439/-/format/webp/2a634f69148f2de090a9ff1d89d3284e.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3132-6231-4438-a235-663466303439/-/format/webp/2a634f69148f2de090a9ff1d89d3284e.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3132-6231-4438-a235-663466303439/-/format/webp/2a634f69148f2de090a9ff1d89d3284e.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">900 ₽</span>
@@ -1808,7 +1832,7 @@
             </div>
           </article>
           <article class="product" data-id="vareniki-adyghe" data-price="900" data-image="https://optim.tildacdn.com/stor3030-3862-4137-a337-633231653066/-/format/webp/39b4077f1c2d2c0ff878e2c1d00e911f.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3030-3862-4137-a337-633231653066/-/format/webp/39b4077f1c2d2c0ff878e2c1d00e911f.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3030-3862-4137-a337-633231653066/-/format/webp/39b4077f1c2d2c0ff878e2c1d00e911f.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">900 ₽</span>
@@ -1821,7 +1845,7 @@
             </div>
           </article>
           <article class="product" data-id="vareniki-sweet-curd" data-price="970" data-image="https://optim.tildacdn.com/stor3063-3134-4637-b966-646530633435/-/format/webp/e2b36ff7ba7ac1ae4d845cbb10177d38.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3063-3134-4637-b966-646530633435/-/format/webp/e2b36ff7ba7ac1ae4d845cbb10177d38.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3063-3134-4637-b966-646530633435/-/format/webp/e2b36ff7ba7ac1ae4d845cbb10177d38.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">970 ₽</span>
@@ -1834,7 +1858,7 @@
             </div>
           </article>
           <article class="product" data-id="vareniki-cherry" data-price="1350" data-image="https://optim.tildacdn.com/stor6361-3262-4134-a233-626666343864/-/format/webp/bbb4ad03bc96fc1897c51c5b84ef26ec.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6361-3262-4134-a233-626666343864/-/format/webp/bbb4ad03bc96fc1897c51c5b84ef26ec.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6361-3262-4134-a233-626666343864/-/format/webp/bbb4ad03bc96fc1897c51c5b84ef26ec.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 350 ₽</span>
@@ -1859,7 +1883,7 @@
         </div>
         <div class="grid grid-3">
           <article class="product" data-id="manty-beef-pork" data-price="1300" data-image="https://optim.tildacdn.com/stor3937-6166-4438-b737-373438396437/-/format/webp/beed04f8d92660c4ec9ff534ce04a1f9.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3937-6166-4438-b737-373438396437/-/format/webp/beed04f8d92660c4ec9ff534ce04a1f9.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3937-6166-4438-b737-373438396437/-/format/webp/beed04f8d92660c4ec9ff534ce04a1f9.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 300 ₽</span>
@@ -1872,7 +1896,7 @@
             </div>
           </article>
           <article class="product" data-id="khinkali-classic" data-price="1300" data-image="https://optim.tildacdn.com/stor3939-3165-4736-a538-643261663762/-/format/webp/539cb8e5a9622a1def3b9416accf3f90.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3939-3165-4736-a538-643261663762/-/format/webp/539cb8e5a9622a1def3b9416accf3f90.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3939-3165-4736-a538-643261663762/-/format/webp/539cb8e5a9622a1def3b9416accf3f90.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 300 ₽</span>
@@ -1885,7 +1909,7 @@
             </div>
           </article>
           <article class="product" data-id="khinkali-greens" data-price="1300" data-image="https://optim.tildacdn.com/stor3736-6539-4238-b033-653531333463/-/format/webp/f409f1d6e2294ff9225c33ff8a123bf9.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3736-6539-4238-b033-653531333463/-/format/webp/f409f1d6e2294ff9225c33ff8a123bf9.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3736-6539-4238-b033-653531333463/-/format/webp/f409f1d6e2294ff9225c33ff8a123bf9.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 300 ₽</span>
@@ -1910,7 +1934,7 @@
         </div>
         <div class="grid grid-3">
           <article class="product" data-id="bliny-meat" data-price="800" data-image="https://optim.tildacdn.com/stor6563-6631-4537-a435-343336633231/-/format/webp/1d09c91f32aff8c76100ddb68528a191.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6563-6631-4537-a435-343336633231/-/format/webp/1d09c91f32aff8c76100ddb68528a191.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6563-6631-4537-a435-343336633231/-/format/webp/1d09c91f32aff8c76100ddb68528a191.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">800 ₽</span>
@@ -1923,7 +1947,7 @@
             </div>
           </article>
           <article class="product" data-id="bliny-liver" data-price="700" data-image="https://optim.tildacdn.com/stor6132-3339-4534-b438-326533646465/-/format/webp/6af1f87d184406a866c18743478c02f7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6132-3339-4534-b438-326533646465/-/format/webp/6af1f87d184406a866c18743478c02f7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6132-3339-4534-b438-326533646465/-/format/webp/6af1f87d184406a866c18743478c02f7.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">700 ₽</span>
@@ -1936,7 +1960,7 @@
             </div>
           </article>
           <article class="product" data-id="bliny-chicken-mushrooms" data-price="750" data-image="https://optim.tildacdn.com/stor6139-3630-4639-b637-316533623131/-/format/webp/0ace15738140c6aba4d22132669dfb7b.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6139-3630-4639-b637-316533623131/-/format/webp/0ace15738140c6aba4d22132669dfb7b.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6139-3630-4639-b637-316533623131/-/format/webp/0ace15738140c6aba4d22132669dfb7b.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">750 ₽</span>
@@ -1949,7 +1973,7 @@
             </div>
           </article>
           <article class="product" data-id="bliny-curd" data-price="600" data-image="https://optim.tildacdn.com/stor3065-6161-4461-a236-336538616262/-/format/webp/0947a12d02aefe287fe3e4ea1e0ac2cc.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3065-6161-4461-a236-336538616262/-/format/webp/0947a12d02aefe287fe3e4ea1e0ac2cc.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3065-6161-4461-a236-336538616262/-/format/webp/0947a12d02aefe287fe3e4ea1e0ac2cc.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">600 ₽</span>
@@ -1962,7 +1986,7 @@
             </div>
           </article>
           <article class="product" data-id="bliny-apple" data-price="650" data-image="https://optim.tildacdn.com/stor3436-3461-4236-b265-663930643836/-/format/webp/f71f3873368f3825af15d6c552c3f8d3.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3436-3461-4236-b265-663930643836/-/format/webp/f71f3873368f3825af15d6c552c3f8d3.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3436-3461-4236-b265-663930643836/-/format/webp/f71f3873368f3825af15d6c552c3f8d3.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">650 ₽</span>
@@ -1975,7 +1999,7 @@
             </div>
           </article>
           <article class="product" data-id="bliny-cherry" data-price="700" data-image="https://optim.tildacdn.com/stor6662-3337-4035-b237-376434366631/-/format/webp/6773e787c94e28250b3005f05c731752.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor6662-3337-4035-b237-376434366631/-/format/webp/6773e787c94e28250b3005f05c731752.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor6662-3337-4035-b237-376434366631/-/format/webp/6773e787c94e28250b3005f05c731752.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">700 ₽</span>
@@ -1988,7 +2012,7 @@
             </div>
           </article>
           <article class="product" data-id="syrniki" data-price="700" data-image="https://optim.tildacdn.com/stor3261-3633-4233-b533-366530646562/-/format/webp/1a61dd32e040ae7544b3ad243d3556ff.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3261-3633-4233-b533-366530646562/-/format/webp/1a61dd32e040ae7544b3ad243d3556ff.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3261-3633-4233-b533-366530646562/-/format/webp/1a61dd32e040ae7544b3ad243d3556ff.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">700 ₽</span>
@@ -2013,7 +2037,7 @@
         </div>
         <div class="grid grid-3">
           <article class="product" data-id="golubtsy-meat-rice" data-price="1000" data-image="https://optim.tildacdn.com/stor3963-6563-4262-a264-303337623063/-/format/webp/aafbfbaba00f51f97982ecb61b46ef24.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3963-6563-4262-a264-303337623063/-/format/webp/aafbfbaba00f51f97982ecb61b46ef24.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3963-6563-4262-a264-303337623063/-/format/webp/aafbfbaba00f51f97982ecb61b46ef24.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 000 ₽</span>
@@ -2026,7 +2050,7 @@
             </div>
           </article>
           <article class="product" data-id="frikadelki" data-price="680" data-image="https://optim.tildacdn.com/stor3334-3136-4965-b966-326436393564/-/format/webp/5bf7454e8601b3b22db1ca664f8a2aea.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3334-3136-4965-b966-326436393564/-/format/webp/5bf7454e8601b3b22db1ca664f8a2aea.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3334-3136-4965-b966-326436393564/-/format/webp/5bf7454e8601b3b22db1ca664f8a2aea.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">680 ₽</span>
@@ -2039,7 +2063,7 @@
             </div>
           </article>
           <article class="product" data-id="kotlety-domashnie" data-price="680" data-image="https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp"></div>
             <div class="meta">
               <span>480 г</span>
               <span class="price">680 ₽</span>
@@ -2052,7 +2076,7 @@
             </div>
           </article>
           <article class="product" data-id="kotlety-ptitsa" data-price="670" data-image="https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">670 ₽</span>
@@ -2065,7 +2089,7 @@
             </div>
           </article>
           <article class="product" data-id="kotlety-beef" data-price="730" data-image="https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3834-6333-4634-b732-303430346234/-/format/webp/04492112726370142655bf4323dc2f6f.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
               <span class="price">730 ₽</span>
@@ -2090,7 +2114,7 @@
         </div>
         <div class="grid grid-3">
           <article class="product" data-id="auto-beef-pork" data-price="1000" data-image="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 000 ₽</span>
@@ -2103,7 +2127,7 @@
             </div>
           </article>
           <article class="product" data-id="auto-elite-beef" data-price="1060" data-image="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">1 060 ₽</span>
@@ -2116,7 +2140,7 @@
             </div>
           </article>
           <article class="product" data-id="auto-beef-turkey" data-price="950" data-image="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">950 ₽</span>
@@ -2129,7 +2153,7 @@
             </div>
           </article>
           <article class="product" data-id="auto-poultry" data-price="930" data-image="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">930 ₽</span>
@@ -2142,7 +2166,7 @@
             </div>
           </article>
           <article class="product" data-id="auto-sitnye" data-price="950" data-image="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <div class="meta">
               <span>800 г</span>
               <span class="price">950 ₽</span>
@@ -2155,7 +2179,7 @@
             </div>
           </article>
           <article class="product" data-id="auto-bulon-turkey" data-price="670" data-image="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <div class="meta">
               <span>450 г</span>
               <span class="price">670 ₽</span>
@@ -2168,7 +2192,7 @@
             </div>
           </article>
           <article class="product" data-id="auto-bulon-classic" data-price="650" data-image="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp">
-            <div class="thumb" style="background-image: url('https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp')"></div>
+            <div class="thumb" data-bg="https://optim.tildacdn.com/stor3233-3930-4631-b632-353532316132/-/format/webp/b5b26d20f6f5c9f7ced2e84abd6f49c7.jpg.webp"></div>
             <div class="meta">
               <span>450 г</span>
               <span class="price">650 ₽</span>
@@ -2300,6 +2324,32 @@
       "auto-bulon-classic": ["50% 48%"]
     };
 
+    const supportsIntersectionObserver = "IntersectionObserver" in window;
+    const thumbLoadHandlers = new Map();
+
+    const thumbObserver = supportsIntersectionObserver
+      ? new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const loadHandler = thumbLoadHandlers.get(entry.target);
+            if (loadHandler) {
+              loadHandler();
+              thumbLoadHandlers.delete(entry.target);
+            }
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: "320px 0px" })
+      : null;
+
+    const observeThumb = (thumb, loadFn) => {
+      if (!thumbObserver) {
+        loadFn();
+        return;
+      }
+      thumbLoadHandlers.set(thumb, loadFn);
+      thumbObserver.observe(thumb);
+    };
+
     const normalizeImageUrl = (url) => url;
 
     const parseInlineBackground = (value) => {
@@ -2307,38 +2357,94 @@
       return match ? match[2] : "";
     };
 
-    const buildProductGallery = (card) => {
+    const getThumbDataUrl = (thumb) => thumb.dataset.bg || parseInlineBackground(thumb.style.backgroundImage || "");
+
+    const markThumbReady = (thumb) => {
+      thumb.classList.remove("is-loading");
+      thumb.classList.add("is-ready");
+    };
+
+    const loadCatalogCardThumb = (thumb) => {
+      if (thumb.dataset.loaded === "1") return;
+      const source = getThumbDataUrl(thumb);
+      if (source) {
+        thumb.style.backgroundImage = `url("${source}")`;
+      }
+      thumb.dataset.loaded = "1";
+      markThumbReady(thumb);
+    };
+
+    const catalogCardThumbs = Array.from(document.querySelectorAll(".catalog-card .thumb"));
+    catalogCardThumbs.forEach((thumb, index) => {
+      thumb.classList.add("is-loading");
+      const loadFn = () => loadCatalogCardThumb(thumb);
+      if (index < 3) {
+        loadFn();
+      } else {
+        observeThumb(thumb, loadFn);
+      }
+    });
+
+    const buildProductGallery = (card, cardIndex) => {
       const thumb = card.querySelector(".thumb");
       if (!thumb) return;
 
       const id = card.dataset.id;
       const focusPoints = productImageFocus[id] || ["50% 48%"];
-      const inlineBg = parseInlineBackground(thumb.style.backgroundImage || "");
       const images = [...new Set(
-        [card.dataset.image, inlineBg, ...(productGalleryExtras[id] || [])]
+        [card.dataset.image, getThumbDataUrl(thumb), ...(productGalleryExtras[id] || [])]
           .filter(Boolean)
           .map(normalizeImageUrl)
       )];
-      if (!images.length) return;
+      if (!images.length) {
+        markThumbReady(thumb);
+        return;
+      }
 
       card.dataset.image = images[0];
-      thumb.style.backgroundImage = "none";
       thumb.textContent = "";
+      thumb.style.backgroundImage = "";
+      thumb.classList.add("is-loading");
 
       const track = document.createElement("div");
       track.className = "thumb-track";
       thumb.appendChild(track);
 
+      const loadSlide = (img) => {
+        if (!img || img.dataset.loaded === "1") return;
+        const source = img.dataset.src;
+        if (!source) return;
+        img.src = source;
+        img.dataset.loaded = "1";
+        if (img.dataset.index === "0" && img.complete) {
+          markThumbReady(thumb);
+        }
+      };
+
       const slides = images.map((src, index) => {
         const img = document.createElement("img");
         img.className = "thumb-slide";
         if (index === 0) img.classList.add("active");
-        img.src = src;
+        img.dataset.src = src;
+        img.dataset.index = String(index);
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.fetchPriority = cardIndex < 2 && index === 0 ? "high" : "low";
         img.style.objectPosition = focusPoints[index] || focusPoints[0] || "50% 48%";
         img.alt = card.querySelector("h3")?.textContent?.trim() || "Фото товара";
+        const onSlideReady = () => markThumbReady(thumb);
+        img.addEventListener("load", onSlideReady, { once: true });
+        img.addEventListener("error", onSlideReady, { once: true });
         track.appendChild(img);
         return img;
       });
+
+      const loadFirstSlide = () => loadSlide(slides[0]);
+      if (cardIndex < 6) {
+        loadFirstSlide();
+      } else {
+        observeThumb(thumb, loadFirstSlide);
+      }
 
       if (images.length === 1) return;
 
@@ -2367,6 +2473,7 @@
 
       const setIndex = (index) => {
         current = (index + slides.length) % slides.length;
+        loadSlide(slides[current]);
         slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
         dotButtons.forEach((dot, i) => dot.classList.toggle("active", i === current));
       };
@@ -2380,7 +2487,7 @@
       });
     };
 
-    productNodes.forEach(buildProductGallery);
+    productNodes.forEach((card, index) => buildProductGallery(card, index));
 
     const products = {
       ...cartMeta,
@@ -2562,7 +2669,7 @@
         const safeImage = product.image || "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Crect width='100%25' height='100%25' fill='%23f5e4d5'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia' font-size='18' fill='%23806b5f'%3EUP%3C/text%3E%3C/svg%3E";
         return `
           <div class="cart-item">
-            <img src="${safeImage}" alt="${product.name}">
+            <img src="${safeImage}" alt="${product.name}" loading="lazy" decoding="async" fetchpriority="low">
             <div class="cart-item-info">
               <div class="cart-item-name">${product.name}</div>
               <div class="cart-item-sub">
