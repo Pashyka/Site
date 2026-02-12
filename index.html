@@ -23,10 +23,6 @@
       --radius-md: 18px;
       --radius-sm: 12px;
       --grid-gap: 20px;
-      --parallax-y-far: 0px;
-      --parallax-y-mid: 0px;
-      --parallax-y-near: 0px;
-      --parallax-y-glow: 0px;
     }
 
     * {
@@ -38,7 +34,10 @@
     body {
       font-family: "Onest", "Prata", serif;
       color: var(--ink);
-      background: #f1e7dc;
+      background:
+        radial-gradient(980px 560px at -6% -4%, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0) 68%),
+        radial-gradient(860px 540px at 104% 12%, rgba(219, 129, 88, 0.22) 0%, rgba(219, 129, 88, 0) 68%),
+        linear-gradient(165deg, #f8efe5 0%, #f3e6d8 52%, #ebd6c4 100%);
       line-height: 1.6;
     }
 
@@ -60,108 +59,8 @@
       display: block;
     }
 
-    .bg-parallax {
-      position: fixed;
-      inset: -12vh -8vw -10vh;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .bg-parallax-layer {
-      position: absolute;
-      inset: 0;
-      will-change: transform;
-      transform: translate3d(0, 0, 0);
-      backface-visibility: hidden;
-    }
-
-    .bg-parallax-base {
-      background:
-        radial-gradient(1100px 650px at 14% -8%, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0) 62%),
-        radial-gradient(900px 540px at 92% 8%, rgba(223, 132, 95, 0.36) 0%, rgba(223, 132, 95, 0) 68%),
-        linear-gradient(165deg, #f7eee4 0%, #f0e2d3 48%, #e9d4c1 100%);
-    }
-
-    .bg-parallax-glow {
-      background:
-        radial-gradient(620px 360px at 8% 88%, rgba(199, 87, 45, 0.17) 0%, rgba(199, 87, 45, 0) 72%),
-        radial-gradient(730px 420px at 88% 82%, rgba(211, 115, 77, 0.16) 0%, rgba(211, 115, 77, 0) 72%);
-      opacity: 0.9;
-      transform: translate3d(0, var(--parallax-y-far), 0);
-    }
-
-    .bg-parallax-pelmeni {
-      background:
-        radial-gradient(70px 52px at 12% 20%, rgba(255, 244, 225, 0.58) 0%, rgba(232, 197, 157, 0.34) 72%, transparent 73%),
-        radial-gradient(74px 56px at 31% 34%, rgba(255, 244, 225, 0.52) 0%, rgba(232, 197, 157, 0.32) 71%, transparent 72%),
-        radial-gradient(68px 50px at 55% 18%, rgba(255, 244, 225, 0.48) 0%, rgba(232, 197, 157, 0.3) 70%, transparent 71%),
-        radial-gradient(76px 56px at 74% 31%, rgba(255, 244, 225, 0.56) 0%, rgba(232, 197, 157, 0.34) 72%, transparent 73%),
-        radial-gradient(70px 52px at 88% 16%, rgba(255, 244, 225, 0.46) 0%, rgba(232, 197, 157, 0.3) 70%, transparent 71%),
-        radial-gradient(72px 54px at 22% 72%, rgba(255, 244, 225, 0.5) 0%, rgba(232, 197, 157, 0.32) 71%, transparent 72%),
-        radial-gradient(68px 50px at 48% 82%, rgba(255, 244, 225, 0.5) 0%, rgba(232, 197, 157, 0.31) 71%, transparent 72%),
-        radial-gradient(74px 56px at 78% 74%, rgba(255, 244, 225, 0.54) 0%, rgba(232, 197, 157, 0.33) 72%, transparent 73%);
-      opacity: 0.9;
-      transform: translate3d(0, var(--parallax-y-mid), 0);
-      filter: saturate(1.05);
-    }
-
-    .bg-parallax-noodles {
-      background:
-        repeating-linear-gradient(115deg, rgba(187, 138, 92, 0.1) 0 2px, transparent 2px 40px),
-        repeating-linear-gradient(145deg, rgba(236, 210, 181, 0.15) 0 1px, transparent 1px 34px);
-      opacity: 0.38;
-      transform: translate3d(0, var(--parallax-y-near), 0);
-      mask-image: radial-gradient(120% 90% at 50% 50%, #000 56%, transparent 100%);
-      -webkit-mask-image: radial-gradient(120% 90% at 50% 50%, #000 56%, transparent 100%);
-    }
-
-    .bg-parallax-flour {
-      background:
-        radial-gradient(circle at 8% 16%, rgba(255, 255, 255, 0.45) 0 1.3px, transparent 1.5px),
-        radial-gradient(circle at 19% 41%, rgba(255, 255, 255, 0.36) 0 1px, transparent 1.2px),
-        radial-gradient(circle at 34% 18%, rgba(255, 255, 255, 0.4) 0 1.2px, transparent 1.4px),
-        radial-gradient(circle at 46% 44%, rgba(255, 255, 255, 0.35) 0 1.1px, transparent 1.3px),
-        radial-gradient(circle at 62% 27%, rgba(255, 255, 255, 0.38) 0 1.1px, transparent 1.3px),
-        radial-gradient(circle at 77% 14%, rgba(255, 255, 255, 0.4) 0 1.2px, transparent 1.4px),
-        radial-gradient(circle at 88% 36%, rgba(255, 255, 255, 0.34) 0 1px, transparent 1.2px),
-        radial-gradient(circle at 14% 76%, rgba(255, 255, 255, 0.39) 0 1.2px, transparent 1.4px),
-        radial-gradient(circle at 33% 86%, rgba(255, 255, 255, 0.34) 0 1px, transparent 1.2px),
-        radial-gradient(circle at 56% 73%, rgba(255, 255, 255, 0.38) 0 1.1px, transparent 1.3px),
-        radial-gradient(circle at 72% 82%, rgba(255, 255, 255, 0.37) 0 1.1px, transparent 1.3px),
-        radial-gradient(circle at 91% 69%, rgba(255, 255, 255, 0.35) 0 1px, transparent 1.2px);
-      opacity: 0.7;
-      transform: translate3d(0, var(--parallax-y-glow), 0);
-    }
-
     .page {
-      position: relative;
-      z-index: 1;
       overflow: hidden;
-    }
-
-    @media (max-width: 720px) {
-      .bg-parallax {
-        inset: -8vh -16vw -8vh;
-      }
-
-      .bg-parallax-noodles {
-        opacity: 0.24;
-      }
-
-      .bg-parallax-flour {
-        opacity: 0.42;
-      }
-
-      .bg-parallax-pelmeni {
-        opacity: 0.72;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .bg-parallax-layer {
-        transform: none !important;
-      }
     }
 
     .container {
@@ -1556,36 +1455,59 @@
       padding-bottom: 56px;
     }
 
-    .animate {
+    .animate,
+    .scroll-reveal {
+      --layer-shift: 0px;
+      --reveal-delay: 0ms;
       opacity: 0;
-      transform: translateY(22px) scale(0.985);
+      transform: translate3d(0, calc(24px + var(--layer-shift)), 0) scale(0.985);
       filter: blur(6px);
       transition:
+        transform 0.78s cubic-bezier(0.22, 1, 0.36, 1),
         opacity 0.76s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.76s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 0.76s cubic-bezier(0.22, 1, 0.36, 1);
+        filter 0.68s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--reveal-delay);
+      will-change: transform, opacity, filter;
     }
 
-    .animate.is-visible {
+    .animate.is-visible,
+    .scroll-reveal.is-visible {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translate3d(0, var(--layer-shift), 0) scale(1);
       filter: blur(0);
     }
 
-    .delay-1 { transition-delay: 0.08s; }
-    .delay-2 { transition-delay: 0.16s; }
-    .delay-3 { transition-delay: 0.24s; }
-    .delay-4 { transition-delay: 0.32s; }
+    body:not(.has-scrolled-once) .scroll-reveal.scroll-defer,
+    body:not(.has-scrolled-once) .scroll-reveal.scroll-defer.is-visible {
+      opacity: 0;
+      transform: translate3d(0, calc(30px + var(--layer-shift)), 0) scale(0.985);
+      filter: blur(7px);
+    }
+
+    .delay-1 { --reveal-delay: 0.08s; }
+    .delay-2 { --reveal-delay: 0.16s; }
+    .delay-3 { --reveal-delay: 0.24s; }
+    .delay-4 { --reveal-delay: 0.32s; }
 
     @media (prefers-reduced-motion: reduce) {
       .animate,
+      .scroll-reveal,
       .animate.is-visible,
+      .scroll-reveal.is-visible,
       .hero-showcase-image,
       .hero-showcase-caption {
         transition: none;
         transform: none;
         filter: none;
         opacity: 1;
+        animation: none;
+      }
+
+      body:not(.has-scrolled-once) .scroll-reveal.scroll-defer,
+      body:not(.has-scrolled-once) .scroll-reveal.scroll-defer.is-visible {
+        opacity: 1;
+        transform: none;
+        filter: none;
       }
     }
 
@@ -1893,13 +1815,6 @@
   </style>
 </head>
 <body>
-  <div class="bg-parallax" aria-hidden="true">
-    <div class="bg-parallax-layer bg-parallax-base"></div>
-    <div class="bg-parallax-layer bg-parallax-glow"></div>
-    <div class="bg-parallax-layer bg-parallax-pelmeni"></div>
-    <div class="bg-parallax-layer bg-parallax-noodles"></div>
-    <div class="bg-parallax-layer bg-parallax-flour"></div>
-  </div>
   <div class="page">
     <header>
       <div class="container nav">
@@ -2253,44 +2168,6 @@
     const formatPrice = (value) => new Intl.NumberFormat("ru-RU").format(value) + " ₽";
     const formatPriceShort = (value) => new Intl.NumberFormat("ru-RU").format(value).replace(/\s/g, ".") + "р";
 
-    const initSiteParallax = () => {
-      const root = document.documentElement;
-      const parallax = document.querySelector(".bg-parallax");
-      if (!root || !parallax) return;
-
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-      if (reducedMotion.matches) return;
-
-      let rafId = 0;
-      let lastY = Number.NaN;
-
-      const apply = () => {
-        rafId = 0;
-        const y = window.scrollY || window.pageYOffset || 0;
-        if (Math.abs(y - lastY) < 0.5) return;
-        lastY = y;
-        root.style.setProperty("--parallax-y-far", `${Math.round(y * -0.06)}px`);
-        root.style.setProperty("--parallax-y-mid", `${Math.round(y * -0.12)}px`);
-        root.style.setProperty("--parallax-y-near", `${Math.round(y * -0.18)}px`);
-        root.style.setProperty("--parallax-y-glow", `${Math.round(y * 0.08)}px`);
-      };
-
-      const request = () => {
-        if (rafId) return;
-        rafId = window.requestAnimationFrame(apply);
-      };
-
-      window.addEventListener("scroll", request, { passive: true });
-      window.addEventListener("resize", request, { passive: true });
-      document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) request();
-      });
-
-      apply();
-    };
-
-    initSiteParallax();
-
     const cartKey = "uralpelmeshki_cart";
     const cartMetaKey = "uralpelmeshki_cart_meta";
     const cart = JSON.parse(localStorage.getItem(cartKey) || "{}");
@@ -2478,39 +2355,143 @@
 
     initHeroShowcase();
 
-    const initRevealAnimations = () => {
-      const nodes = Array.from(document.querySelectorAll(".animate"));
-      if (!nodes.length) return;
+    const initScrollMotion = () => {
+      const revealSelectors = [
+        ".animate",
+        ".section-title",
+        "#advantages .card",
+        "#delivery .card",
+        "#faq .faq-item",
+        "#reviews .review",
+        "#contact .ticker",
+        "#contact .hero-actions",
+        ".footer-grid > div"
+      ];
+      const candidates = Array.from(document.querySelectorAll(revealSelectors.join(",")));
+      if (!candidates.length) return;
 
-      const reveal = (node) => node.classList.add("is-visible");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const seen = new Set();
+      const nodes = candidates.filter((node) => {
+        if (!node || seen.has(node)) return false;
+        seen.add(node);
+        return true;
+      });
+      const delayedByParent = new Map();
+      const activeLayers = new Set();
+      let rafId = 0;
+
+      const getDepth = (node) => {
+        if (node.matches(".hero-visual")) return 28;
+        if (node.matches(".hero-card, #advantages .card, #delivery .card")) return 18;
+        if (node.matches("#faq .faq-item, #reviews .review")) return 14;
+        if (node.matches(".section-title, .hero h1, .hero p, .footer-grid > div")) return 10;
+        return 12;
+      };
+
+      const markVisible = (node) => {
+        node.classList.add("is-visible");
+      };
+
+      const updateLayers = () => {
+        rafId = 0;
+        if (reducedMotion) return;
+        const viewportHeight = window.innerHeight || 1;
+        activeLayers.forEach((node) => {
+          const rect = node.getBoundingClientRect();
+          const depth = Number(node.dataset.layerDepth || 12);
+          const centerDelta = (rect.top + rect.height * 0.5 - viewportHeight * 0.52) / viewportHeight;
+          const shift = Math.max(-depth, Math.min(depth, -centerDelta * depth * 0.95));
+          node.style.setProperty("--layer-shift", `${shift.toFixed(2)}px`);
+        });
+      };
+
+      const requestLayerUpdate = () => {
+        if (rafId) return;
+        rafId = window.requestAnimationFrame(updateLayers);
+      };
+
+      const markFirstScroll = () => {
+        if (document.body.classList.contains("has-scrolled-once")) return;
+        document.body.classList.add("has-scrolled-once");
+      };
+
+      nodes.forEach((node) => {
+        node.classList.add("scroll-reveal");
+        if (!node.closest(".hero")) node.classList.add("scroll-defer");
+        node.dataset.layerDepth = String(getDepth(node));
+
+        if (!node.classList.contains("delay-1")
+          && !node.classList.contains("delay-2")
+          && !node.classList.contains("delay-3")
+          && !node.classList.contains("delay-4")) {
+          const parent = node.closest("section, .hero, footer") || node.parentElement;
+          const order = delayedByParent.get(parent) || 0;
+          node.style.setProperty("--reveal-delay", `${Math.min(order, 5) * 70}ms`);
+          delayedByParent.set(parent, order + 1);
+        }
+      });
+
+      if (reducedMotion) {
+        markFirstScroll();
+        nodes.forEach((node) => {
+          markVisible(node);
+          activeLayers.add(node);
+        });
+        requestLayerUpdate();
+        return;
+      }
 
       if (!("IntersectionObserver" in window)) {
-        nodes.forEach(reveal);
+        markFirstScroll();
+        nodes.forEach((node) => {
+          markVisible(node);
+          activeLayers.add(node);
+        });
+        requestLayerUpdate();
         return;
       }
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          reveal(entry.target);
-          observer.unobserve(entry.target);
+          if (entry.isIntersecting) {
+            markVisible(entry.target);
+            activeLayers.add(entry.target);
+          } else {
+            activeLayers.delete(entry.target);
+          }
         });
-      }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
+        requestLayerUpdate();
+      }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
 
       nodes.forEach((node) => observer.observe(node));
+
+      if ((window.scrollY || window.pageYOffset || 0) > 0) {
+        markFirstScroll();
+      }
+
+      window.addEventListener("scroll", () => {
+        if ((window.scrollY || window.pageYOffset || 0) > 0) markFirstScroll();
+        requestLayerUpdate();
+      }, { passive: true });
+      window.addEventListener("resize", requestLayerUpdate, { passive: true });
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) requestLayerUpdate();
+      });
 
       requestAnimationFrame(() => {
         nodes.forEach((node) => {
           const rect = node.getBoundingClientRect();
           if (rect.top < window.innerHeight * 0.9) {
-            reveal(node);
-            observer.unobserve(node);
+            markVisible(node);
+            activeLayers.add(node);
           }
         });
+        requestLayerUpdate();
       });
     };
 
-    initRevealAnimations();
+    initScrollMotion();
 
     const normalizeImageUrl = (url) => url;
 
