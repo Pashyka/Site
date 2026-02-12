@@ -267,151 +267,79 @@
         linear-gradient(148deg, #cd5d50 0%, #db6f5c 36%, #e98867 69%, #f3b483 100%);
       overflow: hidden;
       color: #fff;
-      padding: 26px;
-      display: flex;
-      align-items: flex-end;
+      padding: 18px;
+      display: grid;
+      place-items: center;
     }
 
     .hero-visual::before {
       content: "";
       position: absolute;
-      width: 360px;
-      height: 360px;
-      top: -140px;
-      right: -90px;
+      width: 320px;
+      height: 320px;
+      top: -125px;
+      right: -80px;
       border-radius: 50%;
-      border: 38px solid rgba(255, 231, 209, 0.25);
+      border: 30px solid rgba(255, 231, 209, 0.18);
       pointer-events: none;
     }
 
-    .hero-visual::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(120deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 45%),
-        radial-gradient(42% 52% at 72% 86%, rgba(125, 32, 24, 0.2), rgba(125, 32, 24, 0));
-      pointer-events: none;
-    }
-
-    .hero-visual-orbit {
-      position: absolute;
-      inset: 66px 34px 140px;
-      border-radius: 28px;
-      background: radial-gradient(circle at 50% 50%, rgba(248, 225, 196, 0.54) 0%, rgba(248, 225, 196, 0.03) 72%);
-      border: 1px solid rgba(255, 233, 214, 0.38);
-      box-shadow: inset 0 0 0 1px rgba(255, 231, 209, 0.22);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .hero-dumpling {
-      position: absolute;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle at 35% 32%, #fff9ef 0%, #f8e8d2 60%, #ebd0ab 100%);
-      box-shadow:
-        inset 0 0 0 1px rgba(196, 132, 76, 0.25),
-        0 8px 18px rgba(119, 43, 24, 0.2);
-    }
-
-    .hero-dumpling.d-1 {
-      width: 90px;
-      height: 74px;
-      left: 14%;
-      top: 30%;
-      transform: rotate(-10deg);
-    }
-
-    .hero-dumpling.d-2 {
-      width: 82px;
-      height: 68px;
-      left: 37%;
-      top: 16%;
-      transform: rotate(7deg);
-    }
-
-    .hero-dumpling.d-3 {
-      width: 94px;
-      height: 76px;
-      right: 17%;
-      top: 34%;
-      transform: rotate(-6deg);
-    }
-
-    .hero-dumpling.d-4 {
-      width: 82px;
-      height: 66px;
-      left: 52%;
-      bottom: 16%;
-      transform: rotate(12deg);
-    }
-
-    .hero-visual-content {
+    .hero-showcase {
       position: relative;
       z-index: 2;
-      width: min(100%, 430px);
-      margin: 0 auto;
-      background: rgba(62, 24, 16, 0.58);
-      border: 1px solid rgba(255, 236, 219, 0.28);
-      border-radius: 20px;
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-      padding: 16px 18px;
-      box-shadow: 0 14px 26px rgba(76, 20, 14, 0.2);
+      width: min(100%, 470px);
+      height: 342px;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #f5e4d5;
+      border: 1px solid rgba(255, 240, 224, 0.45);
+      box-shadow: 0 24px 42px rgba(74, 24, 16, 0.26);
     }
 
-    .hero-visual-kicker {
+    .hero-showcase-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 48%;
+      display: block;
+      transition: opacity 0.34s ease, transform 0.7s ease;
+      transform: scale(1.02);
+    }
+
+    .hero-showcase-image.is-fading {
+      opacity: 0.56;
+      transform: scale(1);
+    }
+
+    .hero-showcase-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: grid;
+      gap: 4px;
+      padding: 13px 14px;
+      background: linear-gradient(180deg, rgba(28, 14, 10, 0) 0%, rgba(28, 14, 10, 0.76) 58%, rgba(28, 14, 10, 0.88) 100%);
+    }
+
+    .hero-showcase-kind {
       font-size: 11px;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgba(255, 242, 232, 0.9);
-      margin-bottom: 10px;
+      color: rgba(255, 236, 220, 0.9);
     }
 
-    .hero-visual-title {
-      font-family: "Prata", serif;
-      font-size: 24px;
+    .hero-showcase-name {
+      font-size: 20px;
       line-height: 1.22;
-      margin-bottom: 10px;
-      color: rgba(255, 248, 240, 0.98);
-      text-shadow: 0 1px 1px rgba(35, 10, 6, 0.35);
+      font-weight: 600;
+      color: rgba(255, 248, 241, 0.99);
+      text-shadow: 0 1px 1px rgba(30, 14, 10, 0.35);
     }
 
-    .hero-visual-copy {
-      font-size: 14px;
-      line-height: 1.45;
-      color: rgba(255, 239, 226, 0.92);
-      margin-bottom: 12px;
-      text-shadow: 0 1px 1px rgba(35, 10, 6, 0.3);
-    }
-
-    .hero .hero-visual-kicker {
-      color: rgba(255, 242, 232, 0.95);
-    }
-
-    .hero .hero-visual-copy {
-      color: rgba(255, 239, 226, 0.96);
-      font-size: 14px;
-    }
-
-    .hero-visual-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .hero-visual-tags span {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 236, 219, 0.32);
-      background: rgba(255, 255, 255, 0.16);
-      padding: 5px 10px;
-      font-size: 12px;
-      line-height: 1.2;
-      color: rgba(255, 246, 238, 0.96);
-      white-space: nowrap;
+    .hero-showcase-price {
+      font-size: 13px;
+      color: rgba(255, 236, 220, 0.9);
     }
 
     .section {
@@ -1669,48 +1597,24 @@
       }
 
       .hero-visual {
-        padding: 16px;
+        padding: 10px;
       }
 
-      .hero-visual-orbit {
-        inset: 56px 18px 130px;
+      .hero-showcase {
+        height: 280px;
+        border-radius: 18px;
       }
 
-      .hero-dumpling.d-1 {
-        width: 72px;
-        height: 60px;
-      }
-
-      .hero-dumpling.d-2 {
-        width: 64px;
-        height: 54px;
-      }
-
-      .hero-dumpling.d-3 {
-        width: 74px;
-        height: 62px;
-      }
-
-      .hero-dumpling.d-4 {
-        width: 64px;
-        height: 54px;
-      }
-
-      .hero-visual-content {
-        padding: 13px 14px;
-      }
-
-      .hero-visual-kicker {
-        letter-spacing: 0.11em;
+      .hero-showcase-kind {
         font-size: 10px;
       }
 
-      .hero-visual-title {
-        font-size: 20px;
+      .hero-showcase-name {
+        font-size: 17px;
       }
 
-      .hero .hero-visual-copy {
-        font-size: 13px;
+      .hero-showcase-price {
+        font-size: 12px;
       }
 
       .btn {
@@ -1932,22 +1836,14 @@
           </div>
         </div>
         <div class="hero-visual animate delay-1">
-          <div class="hero-visual-orbit" aria-hidden="true">
-            <span class="hero-dumpling d-1"></span>
-            <span class="hero-dumpling d-2"></span>
-            <span class="hero-dumpling d-3"></span>
-            <span class="hero-dumpling d-4"></span>
-          </div>
-          <div class="hero-visual-content">
-            <div class="hero-visual-kicker">Собственное производство на Урале</div>
-            <div class="hero-visual-title">Ручная лепка и честный состав</div>
-            <p class="hero-visual-copy">Полуфабрикаты категории А, замороженные по ТУ 10.13.14-006-03446423-2022.</p>
-            <div class="hero-visual-tags">
-              <span>Тонкое эластичное тесто</span>
-              <span>Натуральный мясной фарш</span>
-              <span>Шоковая заморозка</span>
-            </div>
-          </div>
+          <figure class="hero-showcase">
+            <img class="hero-showcase-image" id="heroShowcaseImage" src="https://optim.tildacdn.com/stor3863-3335-4863-a238-333038353538/-/format/webp/676b289183d23623e24ed10a05a7c8bf.jpg.webp" alt="Пельмени с говядиной и свининой" loading="eager" decoding="async" fetchpriority="high">
+            <figcaption class="hero-showcase-caption">
+              <span class="hero-showcase-kind" id="heroShowcaseKind">Пельмени</span>
+              <strong class="hero-showcase-name" id="heroShowcaseName">Пельмени с говядиной и свининой</strong>
+              <span class="hero-showcase-price" id="heroShowcasePrice">800 г • 1 300 ₽</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -2271,6 +2167,111 @@
       "vareniki-sweet-curd": ["50% 48%", "50% 50%"],
       "vareniki-cherry": ["50% 50%"]
     };
+
+    const heroShowcaseImage = document.getElementById("heroShowcaseImage");
+    const heroShowcaseKind = document.getElementById("heroShowcaseKind");
+    const heroShowcaseName = document.getElementById("heroShowcaseName");
+    const heroShowcasePrice = document.getElementById("heroShowcasePrice");
+
+    const heroShowcaseItems = Object.keys(productFallback)
+      .filter((id) => id.startsWith("pelmeni-") || id.startsWith("vareniki-"))
+      .flatMap((id) => {
+        const item = productFallback[id];
+        if (!item || !item.image) return [];
+        const kind = id.startsWith("pelmeni-") ? "Пельмени" : "Вареники";
+        const focusPoints = productImageFocus[id] || ["50% 48%"];
+        const imageSet = [...new Set([item.image, ...(productGalleryExtras[id] || [])].filter(Boolean))];
+        return imageSet.map((src, index) => ({
+          id,
+          kind,
+          name: item.name,
+          price: item.price,
+          weight: "800 г",
+          image: src,
+          objectPosition: focusPoints[index] || focusPoints[0] || "50% 48%"
+        }));
+      });
+
+    const shuffle = (arr) => {
+      for (let i = arr.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+
+    const initHeroShowcase = () => {
+      if (!heroShowcaseImage || !heroShowcaseKind || !heroShowcaseName || !heroShowcasePrice || !heroShowcaseItems.length) {
+        return;
+      }
+
+      let current = -1;
+      let queue = [];
+      let timer = null;
+
+      const refillQueue = () => {
+        queue = shuffle(Array.from({ length: heroShowcaseItems.length }, (_, i) => i));
+      };
+
+      const renderItem = (nextIndex) => {
+        const next = heroShowcaseItems[nextIndex];
+        if (!next) return;
+
+        heroShowcaseImage.classList.add("is-fading");
+
+        const preload = new Image();
+        preload.decoding = "async";
+        preload.src = next.image;
+
+        const apply = () => {
+          heroShowcaseImage.src = next.image;
+          heroShowcaseImage.alt = next.name;
+          heroShowcaseImage.style.objectPosition = next.objectPosition;
+          heroShowcaseKind.textContent = next.kind;
+          heroShowcaseName.textContent = next.name;
+          heroShowcasePrice.textContent = `${next.weight} • ${formatPrice(next.price)}`;
+          requestAnimationFrame(() => heroShowcaseImage.classList.remove("is-fading"));
+        };
+
+        if (preload.complete) {
+          apply();
+        } else {
+          preload.onload = apply;
+          preload.onerror = apply;
+        }
+      };
+
+      const showNext = () => {
+        if (!queue.length) refillQueue();
+        let nextIndex = queue.pop();
+        if (heroShowcaseItems.length > 1 && nextIndex === current) {
+          if (!queue.length) refillQueue();
+          nextIndex = queue.pop();
+        }
+        current = nextIndex;
+        renderItem(nextIndex);
+      };
+
+      const start = () => {
+        if (timer) return;
+        timer = window.setInterval(showNext, 3200);
+      };
+
+      const stop = () => {
+        if (!timer) return;
+        window.clearInterval(timer);
+        timer = null;
+      };
+
+      showNext();
+      start();
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) stop();
+        else start();
+      });
+    };
+
+    initHeroShowcase();
 
     const normalizeImageUrl = (url) => url;
 
