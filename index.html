@@ -241,6 +241,13 @@
     .hero-card .stat strong {
       font-size: 28px;
       color: var(--accent);
+      line-height: 1.1;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .hero-card .stat span {
+      min-width: 0;
     }
 
     .hero-visual {
@@ -1555,6 +1562,16 @@
         padding: 20px;
       }
 
+      .hero-card .stat {
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .hero-visual .eyebrow {
+        letter-spacing: 0.12em;
+        line-height: 1.35;
+      }
+
       .btn {
         width: 100%;
         justify-content: center;
@@ -1576,8 +1593,8 @@
 
       .cart-float,
       .catalog-float {
-        top: calc(env(safe-area-inset-top, 0px) + 10px);
-        bottom: auto;
+        top: auto;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
       }
 
       .cart-float {
@@ -1589,13 +1606,13 @@
       }
 
       .catalog-float-menu {
-        top: 44px;
-        bottom: auto;
+        top: auto;
+        bottom: 44px;
       }
 
       .catalog-float::after {
-        top: 38px;
-        bottom: auto;
+        top: auto;
+        bottom: 38px;
       }
 
       .cart-drawer {
@@ -2392,7 +2409,10 @@
 
     const updateFloatVisibility = () => {
       const header = document.querySelector("header");
-      const threshold = header ? header.offsetHeight : 120;
+      const headerOffset = header ? header.offsetHeight : 120;
+      const threshold = window.matchMedia("(max-width: 640px)").matches
+        ? Math.max(headerOffset + 220, Math.round(window.innerHeight * 0.45))
+        : headerOffset;
       if (window.scrollY > threshold) {
         cartFloat.classList.add("show");
         if (catalogFloat) catalogFloat.classList.add("show");
