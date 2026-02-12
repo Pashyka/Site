@@ -260,28 +260,18 @@
 
     .hero-visual {
       position: relative;
-      min-height: 400px;
-      border-radius: var(--radius-lg);
-      background:
-        radial-gradient(110% 90% at 18% 6%, rgba(255, 247, 236, 0.42) 0%, rgba(255, 247, 236, 0) 52%),
-        linear-gradient(148deg, #cd5d50 0%, #db6f5c 36%, #e98867 69%, #f3b483 100%);
-      overflow: hidden;
+      min-height: 342px;
+      border-radius: 0;
+      background: transparent;
+      overflow: visible;
       color: #fff;
-      padding: 18px;
+      padding: 0;
       display: grid;
       place-items: center;
     }
 
     .hero-visual::before {
-      content: "";
-      position: absolute;
-      width: 320px;
-      height: 320px;
-      top: -125px;
-      right: -80px;
-      border-radius: 50%;
-      border: 30px solid rgba(255, 231, 209, 0.18);
-      pointer-events: none;
+      display: none;
     }
 
     .hero-showcase {
@@ -292,8 +282,9 @@
       border-radius: 24px;
       overflow: hidden;
       background: #f5e4d5;
-      border: 1px solid rgba(255, 240, 224, 0.45);
-      box-shadow: 0 24px 42px rgba(74, 24, 16, 0.26);
+      border: none;
+      box-shadow: 0 18px 34px rgba(74, 24, 16, 0.2);
+      transform: translateZ(0);
     }
 
     .hero-showcase-image {
@@ -302,13 +293,13 @@
       object-fit: cover;
       object-position: 50% 48%;
       display: block;
-      transition: opacity 0.34s ease, transform 0.7s ease;
+      transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
       transform: scale(1.02);
     }
 
     .hero-showcase-image.is-fading {
-      opacity: 0.56;
-      transform: scale(1);
+      opacity: 0.28;
+      transform: scale(1.05);
     }
 
     .hero-showcase-caption {
@@ -320,6 +311,12 @@
       gap: 4px;
       padding: 13px 14px;
       background: linear-gradient(180deg, rgba(28, 14, 10, 0) 0%, rgba(28, 14, 10, 0.76) 58%, rgba(28, 14, 10, 0.88) 100%);
+      transition: opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1), transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .hero-showcase-caption.is-updating {
+      opacity: 0.35;
+      transform: translateY(6px);
     }
 
     .hero-showcase-kind {
@@ -340,6 +337,11 @@
     .hero-showcase-price {
       font-size: 13px;
       color: rgba(255, 236, 220, 0.9);
+    }
+
+    .hero-showcase-note {
+      font-size: 12px;
+      color: rgba(255, 231, 214, 0.86);
     }
 
     .section {
@@ -1452,19 +1454,34 @@
 
     .animate {
       opacity: 0;
-      transform: translateY(16px);
-      animation: rise 0.8s ease forwards;
+      transform: translateY(22px) scale(0.985);
+      filter: blur(6px);
+      transition:
+        opacity 0.76s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.76s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.76s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.3s; }
-    .delay-4 { animation-delay: 0.4s; }
+    .animate.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
 
-    @keyframes rise {
-      to {
+    .delay-1 { transition-delay: 0.08s; }
+    .delay-2 { transition-delay: 0.16s; }
+    .delay-3 { transition-delay: 0.24s; }
+    .delay-4 { transition-delay: 0.32s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate,
+      .animate.is-visible,
+      .hero-showcase-image,
+      .hero-showcase-caption {
+        transition: none;
+        transform: none;
+        filter: none;
         opacity: 1;
-        transform: translateY(0);
       }
     }
 
@@ -1597,7 +1614,7 @@
       }
 
       .hero-visual {
-        padding: 10px;
+        padding: 0;
       }
 
       .hero-showcase {
@@ -1615,6 +1632,10 @@
 
       .hero-showcase-price {
         font-size: 12px;
+      }
+
+      .hero-showcase-note {
+        font-size: 11px;
       }
 
       .btn {
@@ -1842,6 +1863,7 @@
               <span class="hero-showcase-kind" id="heroShowcaseKind">Пельмени</span>
               <strong class="hero-showcase-name" id="heroShowcaseName">Пельмени с говядиной и свининой</strong>
               <span class="hero-showcase-price" id="heroShowcasePrice">800 г • 1 300 ₽</span>
+              <span class="hero-showcase-note" id="heroShowcaseNote">Ручная лепка • насыщенный вкус</span>
             </figcaption>
           </figure>
         </div>
@@ -2172,6 +2194,20 @@
     const heroShowcaseKind = document.getElementById("heroShowcaseKind");
     const heroShowcaseName = document.getElementById("heroShowcaseName");
     const heroShowcasePrice = document.getElementById("heroShowcasePrice");
+    const heroShowcaseNote = document.getElementById("heroShowcaseNote");
+
+    const heroShowcaseNotes = {
+      pelmeni: [
+        "Ручная лепка • насыщенный вкус",
+        "Тонкое тесто • сочная начинка",
+        "Классика уральской кухни"
+      ],
+      vareniki: [
+        "Домашние рецепты • мягкое тесто",
+        "Нежная текстура • яркие начинки",
+        "От сытных до сладких вкусов"
+      ]
+    };
 
     const heroShowcaseItems = Object.keys(productFallback)
       .filter((id) => id.startsWith("pelmeni-") || id.startsWith("vareniki-"))
@@ -2208,9 +2244,21 @@
       let current = -1;
       let queue = [];
       let timer = null;
+      let lastNote = "";
 
       const refillQueue = () => {
         queue = shuffle(Array.from({ length: heroShowcaseItems.length }, (_, i) => i));
+      };
+
+      const pickNote = (kind) => {
+        const pool = kind === "Пельмени" ? heroShowcaseNotes.pelmeni : heroShowcaseNotes.vareniki;
+        if (!pool || !pool.length) return "";
+        let note = pool[Math.floor(Math.random() * pool.length)];
+        if (pool.length > 1 && note === lastNote) {
+          note = pool[(pool.indexOf(note) + 1) % pool.length];
+        }
+        lastNote = note;
+        return note;
       };
 
       const renderItem = (nextIndex) => {
@@ -2218,6 +2266,8 @@
         if (!next) return;
 
         heroShowcaseImage.classList.add("is-fading");
+        const caption = heroShowcaseImage.closest(".hero-showcase")?.querySelector(".hero-showcase-caption");
+        if (caption) caption.classList.add("is-updating");
 
         const preload = new Image();
         preload.decoding = "async";
@@ -2230,7 +2280,13 @@
           heroShowcaseKind.textContent = next.kind;
           heroShowcaseName.textContent = next.name;
           heroShowcasePrice.textContent = `${next.weight} • ${formatPrice(next.price)}`;
-          requestAnimationFrame(() => heroShowcaseImage.classList.remove("is-fading"));
+          if (heroShowcaseNote) {
+            heroShowcaseNote.textContent = pickNote(next.kind);
+          }
+          requestAnimationFrame(() => {
+            heroShowcaseImage.classList.remove("is-fading");
+            if (caption) caption.classList.remove("is-updating");
+          });
         };
 
         if (preload.complete) {
@@ -2254,7 +2310,7 @@
 
       const start = () => {
         if (timer) return;
-        timer = window.setInterval(showNext, 3200);
+        timer = window.setInterval(showNext, 3400);
       };
 
       const stop = () => {
@@ -2272,6 +2328,40 @@
     };
 
     initHeroShowcase();
+
+    const initRevealAnimations = () => {
+      const nodes = Array.from(document.querySelectorAll(".animate"));
+      if (!nodes.length) return;
+
+      const reveal = (node) => node.classList.add("is-visible");
+
+      if (!("IntersectionObserver" in window)) {
+        nodes.forEach(reveal);
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          reveal(entry.target);
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
+
+      nodes.forEach((node) => observer.observe(node));
+
+      requestAnimationFrame(() => {
+        nodes.forEach((node) => {
+          const rect = node.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.9) {
+            reveal(node);
+            observer.unobserve(node);
+          }
+        });
+      });
+    };
+
+    initRevealAnimations();
 
     const normalizeImageUrl = (url) => url;
 
