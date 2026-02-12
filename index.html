@@ -1593,8 +1593,8 @@
 
       .cart-float,
       .catalog-float {
-        top: auto;
-        bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+        top: calc(env(safe-area-inset-top, 0px) + 10px);
+        bottom: auto;
       }
 
       .cart-float {
@@ -1606,13 +1606,13 @@
       }
 
       .catalog-float-menu {
-        top: auto;
-        bottom: 44px;
+        top: 44px;
+        bottom: auto;
       }
 
       .catalog-float::after {
-        top: auto;
-        bottom: 38px;
+        top: 38px;
+        bottom: auto;
       }
 
       .cart-drawer {
@@ -2409,10 +2409,7 @@
 
     const updateFloatVisibility = () => {
       const header = document.querySelector("header");
-      const headerOffset = header ? header.offsetHeight : 120;
-      const threshold = window.matchMedia("(max-width: 640px)").matches
-        ? Math.max(headerOffset + 220, Math.round(window.innerHeight * 0.45))
-        : headerOffset;
+      const threshold = header ? header.offsetHeight : 120;
       if (window.scrollY > threshold) {
         cartFloat.classList.add("show");
         if (catalogFloat) catalogFloat.classList.add("show");
