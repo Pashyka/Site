@@ -849,6 +849,25 @@
       visibility: visible;
     }
 
+    .catalog-float.menu-closing .catalog-float-menu {
+      display: none !important;
+      opacity: 0 !important;
+      transform: translateY(-6px) !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .catalog-float:not(.menu-closing):hover .catalog-float-menu,
+      .catalog-float:not(.menu-closing):focus-within .catalog-float-menu {
+        display: grid;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+        visibility: visible;
+      }
+    }
+
     .catalog-float::after {
       content: "";
       position: absolute;
@@ -2538,11 +2557,51 @@
       window.scrollTo({ top: Math.max(0, Math.round(y)), left: 0, behavior: "auto" });
       requestAnimationFrame(() => setInstantScrollMode(false));
     };
-    const getAnchorTopOffset = () => (window.innerWidth <= 640 ? 10 : 14);
-    const scrollToAnchorNode = (node, behavior = "smooth") => {
-      if (!node) return;
-      const top = Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset());
-      window.scrollTo({ top, left: 0, behavior });
+    const ANCHOR_OFFSETS = {
+      "#catalog": { desktop: 14, mobile: 10 },
+      "#cat-pelmeni-hand": { desktop: 14, mobile: 10 },
+      "#cat-vareniki": { desktop: 14, mobile: 10 },
+      "#cat-manty": { desktop: 14, mobile: 10 },
+      "#cat-blinchiki": { desktop: 14, mobile: 10 },
+      "#cat-polufab": { desktop: 14, mobile: 10 },
+      "#cat-auto": { desktop: 14, mobile: 10 }
+    };
+    const anchorYCache = new Map();
+    const getAnchorTopOffset = (hash = "") => {
+      const preset = ANCHOR_OFFSETS[hash];
+      if (!preset) return window.innerWidth <= 640 ? 10 : 14;
+      return window.innerWidth <= 640 ? preset.mobile : preset.desktop;
+    };
+    const resolveAnchorNode = (hash) => {
+      if (!hash) return null;
+      try {
+        return document.querySelector(hash);
+      } catch (error) {
+        return null;
+      }
+    };
+    const getFixedAnchorY = (hash) => {
+      const node = resolveAnchorNode(hash);
+      if (!node) return null;
+      const top = Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
+      anchorYCache.set(hash, top);
+      return top;
+    };
+    const scrollToHash = (hash, behavior = "smooth") => {
+      const targetY = anchorYCache.get(hash) ?? getFixedAnchorY(hash);
+      if (targetY === null || Number.isNaN(targetY)) return false;
+      window.scrollTo({ top: targetY, left: 0, behavior });
+      return true;
+    };
+    const refreshAnchorCache = () => {
+      Object.keys(ANCHOR_OFFSETS).forEach((hash) => {
+        getFixedAnchorY(hash);
+      });
+    };
+    const alignCurrentHash = (behavior = "auto") => {
+      if (!window.location.hash) return;
+      refreshAnchorCache();
+      scrollToHash(window.location.hash, behavior);
     };
 
     if ("scrollRestoration" in history) {
@@ -2553,6 +2612,21 @@
     if (!window.location.hash && (navType === "reload" || navType === "navigate")) {
       jumpToY(0);
     }
+    window.addEventListener("load", () => {
+      refreshAnchorCache();
+      if (window.location.hash) {
+        alignCurrentHash("auto");
+        window.setTimeout(() => alignCurrentHash("auto"), 240);
+      }
+    }, { once: true });
+    window.addEventListener("resize", refreshAnchorCache, { passive: true });
+    window.addEventListener("pageshow", (event) => {
+      if (window.location.hash) {
+        window.setTimeout(() => alignCurrentHash("auto"), 0);
+        return;
+      }
+      if (event.persisted) jumpToY(0);
+    });
 
     const initFlowScrollExperience = () => {
       const stages = Array.from(document.querySelectorAll("#catalog, .category-section, .footer"));
@@ -3120,10 +3194,21 @@
     const catalogFloat = document.getElementById("catalogFloat");
     const catalogToggle = catalogFloat ? catalogFloat.querySelector(".float-btn") : null;
     const catalogLinks = catalogFloat ? Array.from(catalogFloat.querySelectorAll(".catalog-float-menu a[href]")) : [];
+    let catalogMenuClosingTimer = 0;
 
-    const closeCatalogMenu = () => {
+    const suppressCatalogHover = () => {
+      if (!catalogFloat) return;
+      catalogFloat.classList.add("menu-closing");
+      if (catalogMenuClosingTimer) window.clearTimeout(catalogMenuClosingTimer);
+      catalogMenuClosingTimer = window.setTimeout(() => {
+        catalogFloat.classList.remove("menu-closing");
+      }, 260);
+    };
+
+    const closeCatalogMenu = (forceHide = false) => {
       if (!catalogFloat) return;
       catalogFloat.classList.remove("menu-open");
+      if (forceHide) suppressCatalogHover();
     };
 
     const navigateWithMotion = (href) => {
@@ -3132,9 +3217,8 @@
       const isSameDocument = url.origin === window.location.origin
         && url.pathname === window.location.pathname;
       if (isSameDocument && url.hash) {
-        const target = document.querySelector(url.hash);
-        if (target) {
-          scrollToAnchorNode(target, "smooth");
+        refreshAnchorCache();
+        if (scrollToHash(url.hash, "smooth")) {
           if (window.location.hash !== url.hash) {
             history.pushState(null, "", url.hash);
           }
@@ -3182,7 +3266,15 @@
       catalogToggle.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
+        catalogFloat.classList.remove("menu-closing");
         catalogFloat.classList.toggle("menu-open");
+      });
+    }
+
+    if (catalogFloat) {
+      catalogFloat.addEventListener("mouseenter", () => {
+        if (catalogMenuClosingTimer) window.clearTimeout(catalogMenuClosingTimer);
+        catalogFloat.classList.remove("menu-closing");
       });
     }
 
@@ -3191,7 +3283,8 @@
         const href = link.getAttribute("href");
         if (!href) return;
         event.preventDefault();
-        closeCatalogMenu();
+        event.stopPropagation();
+        closeCatalogMenu(true);
         window.setTimeout(() => {
           navigateWithMotion(href);
         }, 80);
@@ -3199,6 +3292,7 @@
     });
 
     document.addEventListener("click", (event) => {
+      if (event.defaultPrevented) return;
       const anchor = event.target.closest("a[href]");
       if (!anchor) return;
       const href = anchor.getAttribute("href");
