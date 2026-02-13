@@ -1455,45 +1455,88 @@
       padding-bottom: 56px;
     }
 
-    .animate,
-    .scroll-reveal {
-      --layer-shift: 0px;
-      --reveal-delay: 0ms;
+    .ios-scroll-stage {
+      --ios-stage-progress: 0;
+      position: relative;
+    }
+
+    body.scroll-motion-enabled .ios-reveal {
+      --ios-reveal-y: 30px;
+      --ios-reveal-scale: 0.955;
+      --ios-stage-y: 0px;
+      --ios-stage-scale: 1;
+      --ios-delay: 0ms;
       opacity: 0;
-      transform: translate3d(0, calc(24px + var(--layer-shift)), 0) scale(0.985);
-      filter: blur(6px);
+      transform: translate3d(0, calc(var(--ios-reveal-y) + var(--ios-stage-y)), 0) scale(calc(var(--ios-reveal-scale) * var(--ios-stage-scale)));
+      filter: blur(10px);
       transition:
-        transform 0.78s cubic-bezier(0.22, 1, 0.36, 1),
-        opacity 0.76s cubic-bezier(0.22, 1, 0.36, 1),
-        filter 0.68s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--reveal-delay);
+        transform 0.86s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.62s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--ios-delay);
       will-change: transform, opacity, filter;
     }
 
-    .animate.is-visible,
-    .scroll-reveal.is-visible {
+    body.scroll-motion-enabled .ios-reveal.is-visible {
       opacity: 1;
-      transform: translate3d(0, var(--layer-shift), 0) scale(1);
+      transform: translate3d(0, var(--ios-stage-y), 0) scale(var(--ios-stage-scale));
       filter: blur(0);
     }
 
-    body:not(.has-scrolled-once) .scroll-reveal.scroll-defer,
-    body:not(.has-scrolled-once) .scroll-reveal.scroll-defer.is-visible {
+    body.scroll-motion-enabled.scroll-primed:not(.has-scrolled-once) .ios-reveal[data-defer="1"] {
       opacity: 0;
-      transform: translate3d(0, calc(30px + var(--layer-shift)), 0) scale(0.985);
-      filter: blur(7px);
+      transform: translate3d(0, 34px, 0) scale(0.95);
+      filter: blur(12px);
     }
 
-    .delay-1 { --reveal-delay: 0.08s; }
-    .delay-2 { --reveal-delay: 0.16s; }
-    .delay-3 { --reveal-delay: 0.24s; }
-    .delay-4 { --reveal-delay: 0.32s; }
+    .delay-1 { --ios-delay: 0.08s; }
+    .delay-2 { --ios-delay: 0.16s; }
+    .delay-3 { --ios-delay: 0.24s; }
+    .delay-4 { --ios-delay: 0.32s; }
+
+    .hero.ios-scroll-stage[data-ios-pin] {
+      min-height: clamp(106vh, 124vh, 146vh);
+      padding-top: clamp(26px, 6vh, 72px);
+      padding-bottom: clamp(34px, 12vh, 126px);
+    }
+
+    .hero.ios-scroll-stage[data-ios-pin] .hero-grid {
+      position: sticky;
+      top: clamp(74px, 10vh, 112px);
+    }
+
+    .hero.ios-scroll-stage[data-ios-pin] .hero-visual.ios-reveal {
+      --ios-stage-y: calc((1 - var(--ios-stage-progress)) * 24px);
+      --ios-stage-scale: calc(0.92 + var(--ios-stage-progress) * 0.08);
+    }
+
+    .hero.ios-scroll-stage[data-ios-pin] .hero-card.ios-reveal {
+      --ios-stage-y: calc((1 - var(--ios-stage-progress)) * 14px);
+      --ios-stage-scale: calc(0.962 + var(--ios-stage-progress) * 0.038);
+    }
+
+    .hero.ios-scroll-stage[data-ios-pin] h1.ios-reveal,
+    .hero.ios-scroll-stage[data-ios-pin] p.ios-reveal,
+    .hero.ios-scroll-stage[data-ios-pin] .hero-actions.ios-reveal {
+      --ios-stage-y: calc((1 - var(--ios-stage-progress)) * 8px);
+    }
+
+    @media (max-width: 980px) {
+      .hero.ios-scroll-stage[data-ios-pin] {
+        min-height: auto;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      .hero.ios-scroll-stage[data-ios-pin] .hero-grid {
+        position: relative;
+        top: auto;
+      }
+    }
 
     @media (prefers-reduced-motion: reduce) {
-      .animate,
-      .scroll-reveal,
-      .animate.is-visible,
-      .scroll-reveal.is-visible,
+      body.scroll-motion-enabled .ios-reveal,
+      body.scroll-motion-enabled .ios-reveal.is-visible,
       .hero-showcase-image,
       .hero-showcase-caption {
         transition: none;
@@ -1501,13 +1544,6 @@
         filter: none;
         opacity: 1;
         animation: none;
-      }
-
-      body:not(.has-scrolled-once) .scroll-reveal.scroll-defer,
-      body:not(.has-scrolled-once) .scroll-reveal.scroll-defer.is-visible {
-        opacity: 1;
-        transform: none;
-        filter: none;
       }
     }
 
@@ -2355,143 +2391,120 @@
 
     initHeroShowcase();
 
-    const initScrollMotion = () => {
-      const revealSelectors = [
-        ".animate",
-        ".section-title",
-        "#advantages .card",
-        "#delivery .card",
-        "#faq .faq-item",
-        "#reviews .review",
-        "#contact .ticker",
-        "#contact .hero-actions",
-        ".footer-grid > div"
-      ];
-      const candidates = Array.from(document.querySelectorAll(revealSelectors.join(",")));
-      if (!candidates.length) return;
+    const initIOSScrollExperience = () => {
+      const stages = Array.from(document.querySelectorAll(".hero, .section, .footer"));
+      if (!stages.length) return;
+
+      document.body.classList.add("scroll-motion-enabled", "scroll-primed");
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const seen = new Set();
-      const nodes = candidates.filter((node) => {
-        if (!node || seen.has(node)) return false;
-        seen.add(node);
-        return true;
+      const itemSeen = new Set();
+      const revealItems = [];
+      const delayByGroup = new Map();
+      const pinStages = [];
+
+      const addRevealItem = (node, defer) => {
+        if (!node || itemSeen.has(node)) return;
+        itemSeen.add(node);
+        node.classList.add("ios-reveal");
+        if (defer) node.dataset.defer = "1";
+
+        if (!node.classList.contains("delay-1")
+          && !node.classList.contains("delay-2")
+          && !node.classList.contains("delay-3")
+          && !node.classList.contains("delay-4")) {
+          const group = node.closest(".grid, .delivery-list, .faq, .footer-grid, .hero-actions, .highlights, form") || node.parentElement;
+          const order = delayByGroup.get(group) || 0;
+          node.style.setProperty("--ios-delay", `${Math.min(order, 6) * 70}ms`);
+          delayByGroup.set(group, order + 1);
+        }
+
+        revealItems.push(node);
+      };
+
+      stages.forEach((stage, stageIndex) => {
+        stage.classList.add("ios-scroll-stage");
+        const defer = stageIndex > 0;
+
+        if (stage.classList.contains("hero")) {
+          stage.setAttribute("data-ios-pin", "1");
+          pinStages.push(stage);
+          stage.querySelectorAll(".tag, h1, p, .hero-actions, .hero-card, .hero-visual").forEach((node) => addRevealItem(node, false));
+          return;
+        }
+
+        stage.querySelectorAll(".section-title, .highlights .item, .card, .faq details, .review, .ticker, .order form > label, .order form .hero-actions, .footer-grid > div").forEach((node) => addRevealItem(node, defer));
       });
-      const delayedByParent = new Map();
-      const activeLayers = new Set();
-      let rafId = 0;
-
-      const getDepth = (node) => {
-        if (node.matches(".hero-visual")) return 28;
-        if (node.matches(".hero-card, #advantages .card, #delivery .card")) return 18;
-        if (node.matches("#faq .faq-item, #reviews .review")) return 14;
-        if (node.matches(".section-title, .hero h1, .hero p, .footer-grid > div")) return 10;
-        return 12;
-      };
-
-      const markVisible = (node) => {
-        node.classList.add("is-visible");
-      };
-
-      const updateLayers = () => {
-        rafId = 0;
-        if (reducedMotion) return;
-        const viewportHeight = window.innerHeight || 1;
-        activeLayers.forEach((node) => {
-          const rect = node.getBoundingClientRect();
-          const depth = Number(node.dataset.layerDepth || 12);
-          const centerDelta = (rect.top + rect.height * 0.5 - viewportHeight * 0.52) / viewportHeight;
-          const shift = Math.max(-depth, Math.min(depth, -centerDelta * depth * 0.95));
-          node.style.setProperty("--layer-shift", `${shift.toFixed(2)}px`);
-        });
-      };
-
-      const requestLayerUpdate = () => {
-        if (rafId) return;
-        rafId = window.requestAnimationFrame(updateLayers);
-      };
 
       const markFirstScroll = () => {
         if (document.body.classList.contains("has-scrolled-once")) return;
         document.body.classList.add("has-scrolled-once");
       };
 
-      nodes.forEach((node) => {
-        node.classList.add("scroll-reveal");
-        if (!node.closest(".hero")) node.classList.add("scroll-defer");
-        node.dataset.layerDepth = String(getDepth(node));
-
-        if (!node.classList.contains("delay-1")
-          && !node.classList.contains("delay-2")
-          && !node.classList.contains("delay-3")
-          && !node.classList.contains("delay-4")) {
-          const parent = node.closest("section, .hero, footer") || node.parentElement;
-          const order = delayedByParent.get(parent) || 0;
-          node.style.setProperty("--reveal-delay", `${Math.min(order, 5) * 70}ms`);
-          delayedByParent.set(parent, order + 1);
+      const syncFirstScrollState = () => {
+        if ((window.scrollY || window.pageYOffset || 0) > 0) {
+          markFirstScroll();
         }
-      });
+      };
 
-      if (reducedMotion) {
+      syncFirstScrollState();
+      window.addEventListener("scroll", syncFirstScrollState, { passive: true });
+
+      if (reducedMotion || !("IntersectionObserver" in window)) {
         markFirstScroll();
-        nodes.forEach((node) => {
-          markVisible(node);
-          activeLayers.add(node);
+        revealItems.forEach((node) => node.classList.add("is-visible"));
+      } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
+
+        revealItems.forEach((node) => revealObserver.observe(node));
+
+        requestAnimationFrame(() => {
+          revealItems.forEach((node) => {
+            const rect = node.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.92) {
+              node.classList.add("is-visible");
+              revealObserver.unobserve(node);
+            }
+          });
         });
-        requestLayerUpdate();
-        return;
       }
 
-      if (!("IntersectionObserver" in window)) {
-        markFirstScroll();
-        nodes.forEach((node) => {
-          markVisible(node);
-          activeLayers.add(node);
+      if (reducedMotion || !pinStages.length) return;
+
+      let rafId = 0;
+      const updatePinProgress = () => {
+        rafId = 0;
+        const viewportHeight = window.innerHeight || 1;
+        pinStages.forEach((stage) => {
+          const rect = stage.getBoundingClientRect();
+          const start = viewportHeight * 0.88;
+          const end = -Math.min(rect.height * 0.42, viewportHeight * 0.72);
+          const raw = (start - rect.top) / (start - end);
+          const progress = Math.max(0, Math.min(1, raw));
+          stage.style.setProperty("--ios-stage-progress", progress.toFixed(4));
         });
-        requestLayerUpdate();
-        return;
-      }
+      };
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            markVisible(entry.target);
-            activeLayers.add(entry.target);
-          } else {
-            activeLayers.delete(entry.target);
-          }
-        });
-        requestLayerUpdate();
-      }, { threshold: 0.14, rootMargin: "0px 0px -8% 0px" });
+      const requestPinProgress = () => {
+        if (rafId) return;
+        rafId = window.requestAnimationFrame(updatePinProgress);
+      };
 
-      nodes.forEach((node) => observer.observe(node));
-
-      if ((window.scrollY || window.pageYOffset || 0) > 0) {
-        markFirstScroll();
-      }
-
-      window.addEventListener("scroll", () => {
-        if ((window.scrollY || window.pageYOffset || 0) > 0) markFirstScroll();
-        requestLayerUpdate();
-      }, { passive: true });
-      window.addEventListener("resize", requestLayerUpdate, { passive: true });
+      requestPinProgress();
+      window.addEventListener("scroll", requestPinProgress, { passive: true });
+      window.addEventListener("resize", requestPinProgress, { passive: true });
       document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) requestLayerUpdate();
-      });
-
-      requestAnimationFrame(() => {
-        nodes.forEach((node) => {
-          const rect = node.getBoundingClientRect();
-          if (rect.top < window.innerHeight * 0.9) {
-            markVisible(node);
-            activeLayers.add(node);
-          }
-        });
-        requestLayerUpdate();
+        if (!document.hidden) requestPinProgress();
       });
     };
 
-    initScrollMotion();
+    initIOSScrollExperience();
 
     const normalizeImageUrl = (url) => url;
 
