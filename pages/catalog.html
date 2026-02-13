@@ -3235,6 +3235,7 @@
     const catalogToggle = catalogFloat ? catalogFloat.querySelector(".float-btn") : null;
     const catalogLinks = catalogFloat ? Array.from(catalogFloat.querySelectorAll(".catalog-float-menu a[href]")) : [];
     let catalogMenuClosingTimer = 0;
+    let catalogNavigateTimer = 0;
 
     const suppressCatalogHover = () => {
       if (!catalogFloat) return;
@@ -3249,6 +3250,21 @@
       if (!catalogFloat) return;
       catalogFloat.classList.remove("menu-open");
       if (forceHide) suppressCatalogHover();
+    };
+
+    const scheduleCatalogNavigation = (href, delay = 0) => {
+      if (catalogNavigateTimer) {
+        window.clearTimeout(catalogNavigateTimer);
+        catalogNavigateTimer = 0;
+      }
+      if (!delay) {
+        navigateWithMotion(href);
+        return;
+      }
+      catalogNavigateTimer = window.setTimeout(() => {
+        catalogNavigateTimer = 0;
+        navigateWithMotion(href);
+      }, delay);
     };
 
     const navigateWithMotion = (href) => {
@@ -3324,9 +3340,7 @@
         event.preventDefault();
         event.stopPropagation();
         closeCatalogMenu(true);
-        window.setTimeout(() => {
-          navigateWithMotion(href);
-        }, 80);
+        scheduleCatalogNavigation(href, 80);
       });
     });
 
@@ -3343,7 +3357,7 @@
       if (!isSameDocument) return;
       event.preventDefault();
       closeCatalogMenu();
-      navigateWithMotion(href);
+      scheduleCatalogNavigation(href);
     });
 
     document.addEventListener("click", (event) => {
