@@ -350,10 +350,9 @@
     .catalog-intro .muted {
       max-width: 500px;
       margin: 0;
-      padding: 14px 18px;
-      border-radius: 18px;
-      border: 1px solid rgba(28, 23, 20, 0.1);
-      background: rgba(255, 255, 255, 0.55);
+      padding: 0;
+      border: 0;
+      background: transparent;
       color: #4a3c37;
       line-height: 1.45;
     }
@@ -766,7 +765,8 @@
     }
 
     .catalog-float:hover .catalog-float-menu,
-    .catalog-float:focus-within .catalog-float-menu {
+    .catalog-float:focus-within .catalog-float-menu,
+    .catalog-float.menu-open .catalog-float-menu {
       display: grid;
       opacity: 1;
       transform: translateY(0);
@@ -1306,73 +1306,73 @@
       margin-bottom: 6px;
     }
 
-    .ios-scroll-stage {
-      --ios-stage-progress: 0;
+    .flow-stage {
+      --flow-stage-progress: 0;
       position: relative;
     }
 
-    body.scroll-motion-enabled .ios-reveal {
-      --ios-reveal-y: 28px;
-      --ios-reveal-scale: 0.956;
-      --ios-stage-y: 0px;
-      --ios-stage-scale: 1;
-      --ios-delay: 0ms;
+    body.flow-motion-enabled .flow-reveal {
+      --flow-reveal-y: 28px;
+      --flow-reveal-scale: 0.956;
+      --flow-stage-y: 0px;
+      --flow-stage-scale: 1;
+      --flow-delay: 0ms;
       opacity: 0;
-      transform: translate3d(0, calc(var(--ios-reveal-y) + var(--ios-stage-y)), 0) scale(calc(var(--ios-reveal-scale) * var(--ios-stage-scale)));
+      transform: translate3d(0, calc(var(--flow-reveal-y) + var(--flow-stage-y)), 0) scale(calc(var(--flow-reveal-scale) * var(--flow-stage-scale)));
       filter: blur(10px);
       transition:
         transform 0.84s cubic-bezier(0.22, 1, 0.36, 1),
         opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
         filter 0.62s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--ios-delay);
+      transition-delay: var(--flow-delay);
       will-change: transform, opacity, filter;
     }
 
-    body.scroll-motion-enabled .ios-reveal.is-visible {
+    body.flow-motion-enabled .flow-reveal.is-visible {
       opacity: 1;
-      transform: translate3d(0, var(--ios-stage-y), 0) scale(var(--ios-stage-scale));
+      transform: translate3d(0, var(--flow-stage-y), 0) scale(var(--flow-stage-scale));
       filter: blur(0);
     }
 
-    body.scroll-motion-enabled.scroll-primed:not(.has-scrolled-once) .ios-reveal[data-defer="1"] {
+    body.flow-motion-enabled.flow-primed:not(.has-scrolled-once) .flow-reveal[data-defer="1"] {
       opacity: 0;
       transform: translate3d(0, 34px, 0) scale(0.95);
       filter: blur(12px);
     }
 
-    .delay-1 { --ios-delay: 0.08s; }
-    .delay-2 { --ios-delay: 0.16s; }
-    .delay-3 { --ios-delay: 0.24s; }
-    .delay-4 { --ios-delay: 0.32s; }
+    .delay-1 { --flow-delay: 0.08s; }
+    .delay-2 { --flow-delay: 0.16s; }
+    .delay-3 { --flow-delay: 0.24s; }
+    .delay-4 { --flow-delay: 0.32s; }
 
-    .category-section.ios-scroll-stage .section-title {
+    .category-section.flow-stage .section-title {
       position: sticky;
       top: clamp(72px, 9vh, 104px);
       z-index: 18;
-      margin-inline: -10px;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.42);
-      backdrop-filter: blur(10px);
-      background: linear-gradient(170deg, rgba(255, 255, 255, calc(0.5 + var(--ios-stage-progress) * 0.22)) 0%, rgba(246, 234, 221, calc(0.82 + var(--ios-stage-progress) * 0.12)) 100%);
-      box-shadow: 0 12px 26px rgba(34, 24, 19, 0.08);
+      margin-inline: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
-    .category-section.ios-scroll-stage .section-title h2 {
-      transform: translate3d(0, calc((1 - var(--ios-stage-progress)) * 6px), 0);
+    .category-section.flow-stage .section-title h2 {
+      transform: translate3d(0, calc((1 - var(--flow-stage-progress)) * 6px), 0);
       transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     @media (max-width: 900px) {
-      .category-section.ios-scroll-stage .section-title {
+      .category-section.flow-stage .section-title {
         top: 70px;
-        margin-inline: -6px;
+        margin-inline: 0;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      body.scroll-motion-enabled .ios-reveal,
-      body.scroll-motion-enabled .ios-reveal.is-visible {
+      body.flow-motion-enabled .flow-reveal,
+      body.flow-motion-enabled .flow-reveal.is-visible {
         transition: none;
         transform: none;
         filter: none;
@@ -2045,7 +2045,7 @@
               <button class="btn btn-primary" data-add="bliny-curd">В корзину</button>
             </div>
           </article>
-          <article class="product" data-id="bliny-apple" data-price="650" data-image="https://optim.tildacdn.com/stor3436-3461-4236-b265-663930643836/-/format/webp/f71f3873368f3825af15d6c552c3f8d3.jpg.webp">
+          <article class="product" data-id="bliny-yabloko" data-price="650" data-image="https://optim.tildacdn.com/stor3436-3461-4236-b265-663930643836/-/format/webp/f71f3873368f3825af15d6c552c3f8d3.jpg.webp">
             <div class="thumb" data-bg="https://optim.tildacdn.com/stor3436-3461-4236-b265-663930643836/-/format/webp/f71f3873368f3825af15d6c552c3f8d3.jpg.webp"></div>
             <div class="meta">
               <span>500 г</span>
@@ -2055,7 +2055,7 @@
             <p>Ароматная начинка из печёных яблок, корицы и ванилина. Вкус домашней шарлотки в формате блинчиков.</p>
             <p><strong>Состав:</strong> Начинка: яблоко, корица, ванилин. Тесто: мука пшеничная в/с, молоко, яйцо, масло подсолнечное, соль, сахар.</p>
             <div class="hero-actions">
-              <button class="btn btn-primary" data-add="bliny-apple">В корзину</button>
+              <button class="btn btn-primary" data-add="bliny-yabloko">В корзину</button>
             </div>
           </article>
           <article class="product" data-id="bliny-cherry" data-price="700" data-image="https://optim.tildacdn.com/stor6662-3337-4035-b237-376434366631/-/format/webp/6773e787c94e28250b3005f05c731752.jpg.webp">
@@ -2324,11 +2324,11 @@
     const formatPrice = (value) => new Intl.NumberFormat("ru-RU").format(value) + " ₽";
     const formatPriceShort = (value) => new Intl.NumberFormat("ru-RU").format(value).replace(/\s/g, ".") + "р";
 
-    const initIOSScrollExperience = () => {
+    const initFlowScrollExperience = () => {
       const stages = Array.from(document.querySelectorAll("#catalog, .category-section, .footer"));
       if (!stages.length) return;
 
-      document.body.classList.add("scroll-motion-enabled", "scroll-primed");
+      document.body.classList.add("flow-motion-enabled", "flow-primed");
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const itemSeen = new Set();
@@ -2339,18 +2339,18 @@
       const addRevealItem = (node, defer) => {
         if (!node || itemSeen.has(node)) return;
         itemSeen.add(node);
-        node.classList.add("ios-reveal");
+        node.classList.add("flow-reveal");
         if (defer) node.dataset.defer = "1";
 
         const group = node.closest(".grid, .footer-grid") || node.parentElement;
         const order = delayByGroup.get(group) || 0;
-        node.style.setProperty("--ios-delay", `${Math.min(order, 7) * 65}ms`);
+        node.style.setProperty("--flow-delay", `${Math.min(order, 7) * 65}ms`);
         delayByGroup.set(group, order + 1);
         revealItems.push(node);
       };
 
       stages.forEach((stage, stageIndex) => {
-        stage.classList.add("ios-scroll-stage");
+        stage.classList.add("flow-stage");
         const defer = stageIndex > 0;
 
         if (stage.classList.contains("category-section")) {
@@ -2419,7 +2419,7 @@
           const end = -Math.min(rect.height * 0.38, viewportHeight * 0.68);
           const raw = (start - rect.top) / (start - end);
           const progress = Math.max(0, Math.min(1, raw));
-          stage.style.setProperty("--ios-stage-progress", progress.toFixed(4));
+          stage.style.setProperty("--flow-stage-progress", progress.toFixed(4));
         });
       };
 
@@ -2436,7 +2436,7 @@
       });
     };
 
-    initIOSScrollExperience();
+    initFlowScrollExperience();
 
     const cartKey = "uralpelmeshki_cart";
     const cartMetaKey = "uralpelmeshki_cart_meta";
@@ -2481,7 +2481,7 @@
       "bliny-liver": ["50% 48%"],
       "bliny-chicken-mushrooms": ["50% 48%", "50% 50%"],
       "bliny-curd": ["50% 48%", "50% 50%"],
-      "bliny-apple": ["50% 48%"],
+      "bliny-yabloko": ["50% 48%"],
       "bliny-cherry": ["50% 48%"],
       "syrniki": ["50% 48%", "50% 50%"],
       "golubtsy-meat-rice": ["50% 48%", "50% 50%"],
@@ -2886,6 +2886,13 @@
 
 
     const catalogFloat = document.getElementById("catalogFloat");
+    const catalogToggle = catalogFloat ? catalogFloat.querySelector(".float-btn") : null;
+    const catalogLinks = catalogFloat ? Array.from(catalogFloat.querySelectorAll(".catalog-float-menu a[href]")) : [];
+
+    const closeCatalogMenu = () => {
+      if (!catalogFloat) return;
+      catalogFloat.classList.remove("menu-open");
+    };
 
     const updateFloatVisibility = () => {
       const header = document.querySelector("header");
@@ -2896,6 +2903,7 @@
       } else {
         cartFloat.classList.remove("show");
         if (catalogFloat) catalogFloat.classList.remove("show");
+        closeCatalogMenu();
       }
     };
 
@@ -2904,6 +2912,7 @@
       if (hidden) {
         cartFloat.classList.add("hidden");
         if (catalogFloat) catalogFloat.classList.add("hidden");
+        closeCatalogMenu();
       } else {
         cartFloat.classList.remove("hidden");
         if (catalogFloat) catalogFloat.classList.remove("hidden");
@@ -2917,6 +2926,36 @@
 
     cartFloat.addEventListener("click", () => {
       openCart();
+    });
+
+    if (catalogToggle) {
+      catalogToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        catalogFloat.classList.toggle("menu-open");
+      });
+    }
+
+    catalogLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const href = link.getAttribute("href");
+        if (!href) return;
+        event.preventDefault();
+        closeCatalogMenu();
+        window.setTimeout(() => {
+          window.location.href = href;
+        }, 90);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!catalogFloat) return;
+      if (catalogFloat.contains(event.target)) return;
+      closeCatalogMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeCatalogMenu();
     });
 
     document.addEventListener("click", (event) => {

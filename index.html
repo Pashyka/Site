@@ -752,7 +752,8 @@
     }
 
     .catalog-float:hover .catalog-float-menu,
-    .catalog-float:focus-within .catalog-float-menu {
+    .catalog-float:focus-within .catalog-float-menu,
+    .catalog-float.menu-open .catalog-float-menu {
       display: grid;
       opacity: 1;
       transform: translateY(0);
@@ -1455,88 +1456,88 @@
       padding-bottom: 56px;
     }
 
-    .ios-scroll-stage {
-      --ios-stage-progress: 0;
+    .flow-stage {
+      --flow-stage-progress: 0;
       position: relative;
     }
 
-    body.scroll-motion-enabled .ios-reveal {
-      --ios-reveal-y: 30px;
-      --ios-reveal-scale: 0.955;
-      --ios-stage-y: 0px;
-      --ios-stage-scale: 1;
-      --ios-delay: 0ms;
+    body.flow-motion-enabled .flow-reveal {
+      --flow-reveal-y: 30px;
+      --flow-reveal-scale: 0.955;
+      --flow-stage-y: 0px;
+      --flow-stage-scale: 1;
+      --flow-delay: 0ms;
       opacity: 0;
-      transform: translate3d(0, calc(var(--ios-reveal-y) + var(--ios-stage-y)), 0) scale(calc(var(--ios-reveal-scale) * var(--ios-stage-scale)));
+      transform: translate3d(0, calc(var(--flow-reveal-y) + var(--flow-stage-y)), 0) scale(calc(var(--flow-reveal-scale) * var(--flow-stage-scale)));
       filter: blur(10px);
       transition:
         transform 0.86s cubic-bezier(0.22, 1, 0.36, 1),
         opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1),
         filter 0.62s cubic-bezier(0.22, 1, 0.36, 1);
-      transition-delay: var(--ios-delay);
+      transition-delay: var(--flow-delay);
       will-change: transform, opacity, filter;
     }
 
-    body.scroll-motion-enabled .ios-reveal.is-visible {
+    body.flow-motion-enabled .flow-reveal.is-visible {
       opacity: 1;
-      transform: translate3d(0, var(--ios-stage-y), 0) scale(var(--ios-stage-scale));
+      transform: translate3d(0, var(--flow-stage-y), 0) scale(var(--flow-stage-scale));
       filter: blur(0);
     }
 
-    body.scroll-motion-enabled.scroll-primed:not(.has-scrolled-once) .ios-reveal[data-defer="1"] {
+    body.flow-motion-enabled.flow-primed:not(.has-scrolled-once) .flow-reveal[data-defer="1"] {
       opacity: 0;
       transform: translate3d(0, 34px, 0) scale(0.95);
       filter: blur(12px);
     }
 
-    .delay-1 { --ios-delay: 0.08s; }
-    .delay-2 { --ios-delay: 0.16s; }
-    .delay-3 { --ios-delay: 0.24s; }
-    .delay-4 { --ios-delay: 0.32s; }
+    .delay-1 { --flow-delay: 0.08s; }
+    .delay-2 { --flow-delay: 0.16s; }
+    .delay-3 { --flow-delay: 0.24s; }
+    .delay-4 { --flow-delay: 0.32s; }
 
-    .hero.ios-scroll-stage[data-ios-pin] {
+    .hero.flow-stage[data-flow-pin] {
       min-height: clamp(106vh, 124vh, 146vh);
       padding-top: clamp(26px, 6vh, 72px);
       padding-bottom: clamp(34px, 12vh, 126px);
     }
 
-    .hero.ios-scroll-stage[data-ios-pin] .hero-grid {
+    .hero.flow-stage[data-flow-pin] .hero-grid {
       position: sticky;
       top: clamp(74px, 10vh, 112px);
     }
 
-    .hero.ios-scroll-stage[data-ios-pin] .hero-visual.ios-reveal {
-      --ios-stage-y: calc((1 - var(--ios-stage-progress)) * 24px);
-      --ios-stage-scale: calc(0.92 + var(--ios-stage-progress) * 0.08);
+    .hero.flow-stage[data-flow-pin] .hero-visual.flow-reveal {
+      --flow-stage-y: calc((1 - var(--flow-stage-progress)) * 24px);
+      --flow-stage-scale: calc(0.92 + var(--flow-stage-progress) * 0.08);
     }
 
-    .hero.ios-scroll-stage[data-ios-pin] .hero-card.ios-reveal {
-      --ios-stage-y: calc((1 - var(--ios-stage-progress)) * 14px);
-      --ios-stage-scale: calc(0.962 + var(--ios-stage-progress) * 0.038);
+    .hero.flow-stage[data-flow-pin] .hero-card.flow-reveal {
+      --flow-stage-y: calc((1 - var(--flow-stage-progress)) * 14px);
+      --flow-stage-scale: calc(0.962 + var(--flow-stage-progress) * 0.038);
     }
 
-    .hero.ios-scroll-stage[data-ios-pin] h1.ios-reveal,
-    .hero.ios-scroll-stage[data-ios-pin] p.ios-reveal,
-    .hero.ios-scroll-stage[data-ios-pin] .hero-actions.ios-reveal {
-      --ios-stage-y: calc((1 - var(--ios-stage-progress)) * 8px);
+    .hero.flow-stage[data-flow-pin] h1.flow-reveal,
+    .hero.flow-stage[data-flow-pin] p.flow-reveal,
+    .hero.flow-stage[data-flow-pin] .hero-actions.flow-reveal {
+      --flow-stage-y: calc((1 - var(--flow-stage-progress)) * 8px);
     }
 
     @media (max-width: 980px) {
-      .hero.ios-scroll-stage[data-ios-pin] {
+      .hero.flow-stage[data-flow-pin] {
         min-height: auto;
         padding-top: 0;
         padding-bottom: 0;
       }
 
-      .hero.ios-scroll-stage[data-ios-pin] .hero-grid {
+      .hero.flow-stage[data-flow-pin] .hero-grid {
         position: relative;
         top: auto;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      body.scroll-motion-enabled .ios-reveal,
-      body.scroll-motion-enabled .ios-reveal.is-visible,
+      body.flow-motion-enabled .flow-reveal,
+      body.flow-motion-enabled .flow-reveal.is-visible,
       .hero-showcase-image,
       .hero-showcase-caption {
         transition: none;
@@ -2391,11 +2392,11 @@
 
     initHeroShowcase();
 
-    const initIOSScrollExperience = () => {
+    const initFlowScrollExperience = () => {
       const stages = Array.from(document.querySelectorAll(".hero, .section, .footer"));
       if (!stages.length) return;
 
-      document.body.classList.add("scroll-motion-enabled", "scroll-primed");
+      document.body.classList.add("flow-motion-enabled", "flow-primed");
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const itemSeen = new Set();
@@ -2406,7 +2407,7 @@
       const addRevealItem = (node, defer) => {
         if (!node || itemSeen.has(node)) return;
         itemSeen.add(node);
-        node.classList.add("ios-reveal");
+        node.classList.add("flow-reveal");
         if (defer) node.dataset.defer = "1";
 
         if (!node.classList.contains("delay-1")
@@ -2415,7 +2416,7 @@
           && !node.classList.contains("delay-4")) {
           const group = node.closest(".grid, .delivery-list, .faq, .footer-grid, .hero-actions, .highlights, form") || node.parentElement;
           const order = delayByGroup.get(group) || 0;
-          node.style.setProperty("--ios-delay", `${Math.min(order, 6) * 70}ms`);
+          node.style.setProperty("--flow-delay", `${Math.min(order, 6) * 70}ms`);
           delayByGroup.set(group, order + 1);
         }
 
@@ -2423,11 +2424,11 @@
       };
 
       stages.forEach((stage, stageIndex) => {
-        stage.classList.add("ios-scroll-stage");
+        stage.classList.add("flow-stage");
         const defer = stageIndex > 0;
 
         if (stage.classList.contains("hero")) {
-          stage.setAttribute("data-ios-pin", "1");
+          stage.setAttribute("data-flow-pin", "1");
           pinStages.push(stage);
           stage.querySelectorAll(".tag, h1, p, .hero-actions, .hero-card, .hero-visual").forEach((node) => addRevealItem(node, false));
           return;
@@ -2487,7 +2488,7 @@
           const end = -Math.min(rect.height * 0.42, viewportHeight * 0.72);
           const raw = (start - rect.top) / (start - end);
           const progress = Math.max(0, Math.min(1, raw));
-          stage.style.setProperty("--ios-stage-progress", progress.toFixed(4));
+          stage.style.setProperty("--flow-stage-progress", progress.toFixed(4));
         });
       };
 
@@ -2504,7 +2505,7 @@
       });
     };
 
-    initIOSScrollExperience();
+    initFlowScrollExperience();
 
     const normalizeImageUrl = (url) => url;
 
@@ -2812,6 +2813,13 @@
 
 
     const catalogFloat = document.getElementById("catalogFloat");
+    const catalogToggle = catalogFloat ? catalogFloat.querySelector(".float-btn") : null;
+    const catalogLinks = catalogFloat ? Array.from(catalogFloat.querySelectorAll(".catalog-float-menu a[href]")) : [];
+
+    const closeCatalogMenu = () => {
+      if (!catalogFloat) return;
+      catalogFloat.classList.remove("menu-open");
+    };
 
     const updateFloatVisibility = () => {
       const header = document.querySelector("header");
@@ -2822,6 +2830,7 @@
       } else {
         cartFloat.classList.remove("show");
         if (catalogFloat) catalogFloat.classList.remove("show");
+        closeCatalogMenu();
       }
     };
 
@@ -2830,6 +2839,7 @@
       if (hidden) {
         cartFloat.classList.add("hidden");
         if (catalogFloat) catalogFloat.classList.add("hidden");
+        closeCatalogMenu();
       } else {
         cartFloat.classList.remove("hidden");
         if (catalogFloat) catalogFloat.classList.remove("hidden");
@@ -2843,6 +2853,36 @@
 
     cartFloat.addEventListener("click", () => {
       openCart();
+    });
+
+    if (catalogToggle) {
+      catalogToggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        catalogFloat.classList.toggle("menu-open");
+      });
+    }
+
+    catalogLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const href = link.getAttribute("href");
+        if (!href) return;
+        event.preventDefault();
+        closeCatalogMenu();
+        window.setTimeout(() => {
+          window.location.href = href;
+        }, 90);
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!catalogFloat) return;
+      if (catalogFloat.contains(event.target)) return;
+      closeCatalogMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeCatalogMenu();
     });
 
     document.addEventListener("click", (event) => {
