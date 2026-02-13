@@ -36,6 +36,12 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
     body {
       font-family: "Onest", "Prata", serif;
       color: var(--ink);
@@ -44,6 +50,7 @@
         radial-gradient(860px 540px at 104% 12%, rgba(219, 129, 88, 0.22) 0%, rgba(219, 129, 88, 0) 68%),
         linear-gradient(165deg, #f8efe5 0%, #f3e6d8 52%, #ebd6c4 100%);
       line-height: 1.6;
+      overflow-x: clip;
     }
 
     body.cart-open {
@@ -657,6 +664,26 @@
       color: var(--accent);
     }
 
+    .catalog-card,
+    .product,
+    .product > * {
+      min-width: 0;
+    }
+
+    .product h3 {
+      font-size: 20px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .product p {
+      font-size: 16px;
+      line-height: 1.52;
+      overflow-wrap: anywhere;
+      word-break: normal;
+      hyphens: auto;
+    }
+
 
     .cart-button {
       position: relative;
@@ -810,8 +837,6 @@
       padding-top: 14px;
     }
 
-    .catalog-float:hover .catalog-float-menu,
-    .catalog-float:focus-within .catalog-float-menu,
     .catalog-float.menu-open .catalog-float-menu {
       display: grid;
       opacity: 1;
@@ -1420,6 +1445,10 @@
       }
     }
 
+    [id] {
+      scroll-margin-top: 108px;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .btn,
       .btn-link,
@@ -1643,7 +1672,7 @@
 
       .catalog-intro .muted {
         max-width: none;
-        padding: 12px 14px;
+        padding: 0;
       }
 
       .category-section {
@@ -1695,6 +1724,29 @@
       .catalog-float::after {
         top: 38px;
         bottom: auto;
+      }
+
+      .section-title h2 {
+        font-size: clamp(24px, 7vw, 32px);
+      }
+
+      .product {
+        padding: 14px;
+        gap: 10px;
+      }
+
+      .product .thumb {
+        height: 190px;
+      }
+
+      .product h3 {
+        font-size: 18px;
+        line-height: 1.24;
+      }
+
+      .product p {
+        font-size: 16px;
+        line-height: 1.48;
       }
 
       .cart-drawer {
@@ -2753,7 +2805,7 @@
         img.dataset.index = String(index);
         img.loading = "lazy";
         img.decoding = "async";
-        img.fetchPriority = cardIndex < 2 && index === 0 ? "high" : "low";
+        img.fetchPriority = cardIndex < 2 && index < 2 ? "high" : "low";
         img.style.objectPosition = focusPoints[index] || focusPoints[0] || "50% 48%";
         img.alt = card.querySelector("h3")?.textContent?.trim() || "Фото товара";
         const onSlideReady = () => markThumbReady(thumb);
@@ -2763,11 +2815,14 @@
         return img;
       });
 
-      const loadFirstSlide = () => loadSlide(slides[0]);
+      const loadInitialSlides = () => {
+        loadSlide(slides[0]);
+        if (slides[1]) loadSlide(slides[1]);
+      };
       if (cardIndex < 6) {
-        loadFirstSlide();
+        loadInitialSlides();
       } else {
-        observeThumb(thumb, loadFirstSlide);
+        observeThumb(thumb, loadInitialSlides);
       }
 
       if (images.length === 1) return;
@@ -3044,6 +3099,24 @@
       catalogFloat.classList.remove("menu-open");
     };
 
+    const navigateWithMotion = (href) => {
+      if (!href) return;
+      const url = new URL(href, window.location.href);
+      const isSameDocument = url.origin === window.location.origin
+        && url.pathname === window.location.pathname;
+      if (isSameDocument && url.hash) {
+        const target = document.querySelector(url.hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (window.location.hash !== url.hash) {
+            history.pushState(null, "", url.hash);
+          }
+          return;
+        }
+      }
+      window.location.href = href;
+    };
+
     const updateFloatVisibility = () => {
       const header = document.querySelector("header");
       const threshold = header ? header.offsetHeight : 120;
@@ -3093,9 +3166,24 @@
         event.preventDefault();
         closeCatalogMenu();
         window.setTimeout(() => {
-          window.location.href = href;
-        }, 90);
+          navigateWithMotion(href);
+        }, 80);
       });
+    });
+
+    document.addEventListener("click", (event) => {
+      const anchor = event.target.closest("a[href]");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href");
+      if (!href || href === "#" || href.startsWith("mailto:") || href.startsWith("tel:")) return;
+      const url = new URL(href, window.location.href);
+      const isSameDocument = url.origin === window.location.origin
+        && url.pathname === window.location.pathname
+        && Boolean(url.hash);
+      if (!isSameDocument) return;
+      event.preventDefault();
+      closeCatalogMenu();
+      navigateWithMotion(href);
     });
 
     document.addEventListener("click", (event) => {
