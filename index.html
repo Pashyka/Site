@@ -1765,21 +1765,36 @@
 
     @media (max-width: 1180px) {
       .nav {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-items: center;
+        gap: 14px;
       }
 
       .nav-links {
-        order: 3;
-        width: 100%;
-        justify-content: center;
+        order: 2;
+        flex: 1 1 auto;
+        min-width: 0;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .nav-links::-webkit-scrollbar {
+        display: none;
       }
 
       .nav-cta {
-        order: 2;
+        order: 3;
         margin-left: auto;
         justify-content: flex-end;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+      }
+
+      .nav-cta .pill {
+        display: none;
       }
     }
 
@@ -1793,38 +1808,41 @@
       }
 
       .nav {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 14px;
-        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: nowrap;
       }
 
       .logo img {
-        height: 56px;
+        height: 46px;
       }
 
       .nav-links {
         order: 2;
-        width: 100%;
+        width: auto;
         justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 14px 18px;
+        gap: 12px;
       }
 
       .nav-cta {
         order: 3;
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap;
+        width: auto;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        flex-shrink: 0;
       }
 
       .nav-cta .pill {
-        flex: 1 1 100%;
-        justify-content: center;
+        display: none;
       }
 
       .nav-cta .btn {
-        flex: 1 1 220px;
+        flex: 0 0 auto;
+      }
+
+      .nav-cta .btn-primary {
+        display: none;
       }
 
       .hero-visual {
@@ -1897,11 +1915,13 @@
       }
 
       .nav-links {
-        gap: 10px 14px;
+        gap: 10px;
+        font-size: 15px;
       }
 
       .nav-cta .btn {
-        flex: 1 1 100%;
+        flex: 0 0 auto;
+        width: auto;
       }
 
       .float-btn,
