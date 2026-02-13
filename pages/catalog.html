@@ -2566,6 +2566,14 @@
       "#cat-polufab": { desktop: 8, mobile: 6 },
       "#cat-auto": { desktop: 8, mobile: 6 }
     };
+    const CATEGORY_HEADING_SELECTORS = {
+      "#cat-pelmeni-hand": "#cat-pelmeni-hand .section-title h2",
+      "#cat-vareniki": "#cat-vareniki .section-title h2",
+      "#cat-manty": "#cat-manty .section-title h2",
+      "#cat-blinchiki": "#cat-blinchiki .section-title h2",
+      "#cat-polufab": "#cat-polufab .section-title h2",
+      "#cat-auto": "#cat-auto .section-title h2"
+    };
     const getAnchorTopOffset = (hash = "") => {
       const preset = ANCHOR_OFFSETS[hash];
       if (!preset) return window.innerWidth <= 640 ? 10 : 14;
@@ -2579,7 +2587,10 @@
     const resolveAnchorNode = (hash) => {
       if (!hash) return null;
       try {
-        const node = document.querySelector(hash);
+        const headingSelector = CATEGORY_HEADING_SELECTORS[hash];
+        const node = headingSelector
+          ? document.querySelector(headingSelector) || document.querySelector(hash)
+          : document.querySelector(hash);
         return node || null;
       } catch (error) {
         return null;
@@ -2605,45 +2616,10 @@
       return true;
     };
     const smoothScrollToHash = (hash) => {
-      const startTarget = getFixedAnchorY(hash);
-      if (startTarget === null || Number.isNaN(startTarget)) return false;
+      const targetY = getFixedAnchorY(hash);
+      if (targetY === null || Number.isNaN(targetY)) return false;
       stopSmoothHashScroll();
-      setInstantScrollMode(true);
-      const token = smoothHashToken;
-      const startTime = performance.now();
-      const startY = getScrollY();
-      const initialDistance = Math.abs(startTarget - startY);
-      const minDuration = Math.max(300, Math.min(560, initialDistance * 0.45));
-      const maxDuration = Math.max(900, Math.min(1500, initialDistance * 1.15 + 420));
-
-      const frame = (now) => {
-        if (token !== smoothHashToken) return;
-        const elapsed = now - startTime;
-        const targetY = getFixedAnchorY(hash);
-        if (targetY === null || Number.isNaN(targetY)) {
-          smoothHashRaf = 0;
-          setInstantScrollMode(false);
-          return;
-        }
-        const currentY = getScrollY();
-        const delta = targetY - currentY;
-        if (elapsed >= minDuration && Math.abs(delta) <= 0.8) {
-          jumpToY(targetY);
-          smoothHashRaf = 0;
-          setInstantScrollMode(false);
-          return;
-        }
-        if (elapsed >= maxDuration) {
-          jumpToY(targetY);
-          smoothHashRaf = 0;
-          setInstantScrollMode(false);
-          return;
-        }
-        const blend = elapsed < minDuration ? 0.22 : 0.3;
-        window.scrollTo({ top: currentY + delta * blend, left: 0, behavior: "auto" });
-        smoothHashRaf = window.requestAnimationFrame(frame);
-      };
-      smoothHashRaf = window.requestAnimationFrame(frame);
+      window.scrollTo({ top: targetY, left: 0, behavior: "smooth" });
       return true;
     };
     const scrollToHash = (hash, behavior = "smooth") => (
@@ -3311,9 +3287,15 @@
       }
     };
     updateFloatVisibility();
-    window.addEventListener("scroll", () => {
-      updateFloatVisibility();
-    }, { passive: true });
+    let floatVisibilityRaf = 0;
+    const requestFloatVisibilityUpdate = () => {
+      if (floatVisibilityRaf) return;
+      floatVisibilityRaf = window.requestAnimationFrame(() => {
+        floatVisibilityRaf = 0;
+        updateFloatVisibility();
+      });
+    };
+    window.addEventListener("scroll", requestFloatVisibilityUpdate, { passive: true });
     window.addEventListener("resize", updateFloatVisibility);
 
     cartFloat.addEventListener("click", () => {
