@@ -206,6 +206,7 @@
 
     .nav-links a {
       position: relative;
+      white-space: nowrap;
       transition: color 0.22s var(--ui-ease);
     }
 
@@ -1792,10 +1793,10 @@
       }
 
       .nav {
-        flex-direction: row;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: nowrap;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        flex-wrap: wrap;
       }
 
       .logo img {
@@ -1804,22 +1805,26 @@
 
       .nav-links {
         order: 2;
-        flex: 1;
-        width: auto;
+        width: 100%;
         justify-content: flex-start;
-        flex-wrap: nowrap;
-        gap: 14px;
-        overflow-x: auto;
-        white-space: nowrap;
-        scrollbar-width: none;
-      }
-
-      .nav-links::-webkit-scrollbar {
-        display: none;
+        flex-wrap: wrap;
+        gap: 14px 18px;
       }
 
       .nav-cta {
-        display: none;
+        order: 3;
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .nav-cta .pill {
+        flex: 1 1 100%;
+        justify-content: center;
+      }
+
+      .nav-cta .btn {
+        flex: 1 1 220px;
       }
 
       .hero-visual {
@@ -1842,11 +1847,11 @@
 
     @media (max-width: 640px) {
       .hero {
-        padding: 48px 0 72px;
+        padding: 64px 0 72px;
       }
 
       .hero .tag {
-        margin-top: 8px;
+        margin-top: 14px;
       }
 
       .section {
