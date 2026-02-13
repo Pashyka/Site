@@ -2425,12 +2425,12 @@
       if (!node) return null;
       return Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
     };
-    let smoothHashRaf = 0;
     let smoothHashToken = 0;
+    let smoothHashSettleTimer = 0;
     const stopSmoothHashScroll = () => {
       smoothHashToken += 1;
-      if (smoothHashRaf) window.cancelAnimationFrame(smoothHashRaf);
-      smoothHashRaf = 0;
+      if (smoothHashSettleTimer) window.clearTimeout(smoothHashSettleTimer);
+      smoothHashSettleTimer = 0;
       setInstantScrollMode(false);
     };
     const jumpToHash = (hash) => {
@@ -2440,43 +2440,23 @@
       return true;
     };
     const smoothScrollToHash = (hash) => {
-      const startTarget = getFixedAnchorY(hash);
-      if (startTarget === null || Number.isNaN(startTarget)) return false;
+      const targetY = getFixedAnchorY(hash);
+      if (targetY === null || Number.isNaN(targetY)) return false;
       stopSmoothHashScroll();
-      setInstantScrollMode(true);
       const token = smoothHashToken;
-      const startTime = performance.now();
-      const startY = getScrollY();
-      const initialDistance = Math.abs(startTarget - startY);
-      const minDuration = Math.max(300, Math.min(560, initialDistance * 0.45));
-      const maxDuration = Math.max(900, Math.min(1500, initialDistance * 1.15 + 420));
+      const travel = Math.abs(targetY - getScrollY());
+      const settleDelay = Math.max(260, Math.min(820, travel * 0.5));
 
-      const frame = (now) => {
+      window.scrollTo({ top: targetY, left: 0, behavior: "smooth" });
+
+      smoothHashSettleTimer = window.setTimeout(() => {
         if (token !== smoothHashToken) return;
-        const elapsed = now - startTime;
-        const targetY = getFixedAnchorY(hash);
-        if (targetY === null || Number.isNaN(targetY)) {
-          smoothHashRaf = 0;
-          setInstantScrollMode(false);
-          return;
+        const correctedTarget = getFixedAnchorY(hash);
+        if (correctedTarget === null || Number.isNaN(correctedTarget)) return;
+        if (Math.abs(correctedTarget - getScrollY()) > 1) {
+          jumpToY(correctedTarget);
         }
-        const currentY = getScrollY();
-        const delta = targetY - currentY;
-        if (elapsed >= minDuration && Math.abs(delta) <= 0.8) {
-          smoothHashRaf = 0;
-          setInstantScrollMode(false);
-          return;
-        }
-        if (elapsed >= maxDuration) {
-          smoothHashRaf = 0;
-          setInstantScrollMode(false);
-          return;
-        }
-        const blend = elapsed < minDuration ? 0.22 : 0.3;
-        window.scrollTo({ top: currentY + delta * blend, left: 0, behavior: "auto" });
-        smoothHashRaf = window.requestAnimationFrame(frame);
-      };
-      smoothHashRaf = window.requestAnimationFrame(frame);
+      }, settleDelay);
       return true;
     };
     const scrollToHash = (hash, behavior = "smooth") => (
@@ -3170,11 +3150,18 @@
         if (catalogFloat) catalogFloat.classList.remove("hidden");
       }
     };
+    let floatVisibilityRaf = 0;
+    const requestFloatVisibilityUpdate = () => {
+      if (floatVisibilityRaf) return;
+      floatVisibilityRaf = window.requestAnimationFrame(() => {
+        floatVisibilityRaf = 0;
+        updateFloatVisibility();
+      });
+    };
+
     updateFloatVisibility();
-    window.addEventListener("scroll", () => {
-      updateFloatVisibility();
-    }, { passive: true });
-    window.addEventListener("resize", updateFloatVisibility);
+    window.addEventListener("scroll", requestFloatVisibilityUpdate, { passive: true });
+    window.addEventListener("resize", requestFloatVisibilityUpdate, { passive: true });
 
     cartFloat.addEventListener("click", () => {
       openCart();
