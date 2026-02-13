@@ -37,14 +37,11 @@
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
     }
 
-    html.no-smooth-scroll {
-      scroll-behavior: auto !important;
-    }
 
     body {
       font-family: "Onest", "Prata", serif;
@@ -2549,85 +2546,8 @@
     const formatPrice = (value) => new Intl.NumberFormat("ru-RU").format(value) + " ₽";
     const formatPriceShort = (value) => new Intl.NumberFormat("ru-RU").format(value).replace(/\s/g, ".") + "р";
     const getScrollY = () => window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-    const setInstantScrollMode = (enabled) => {
-      document.documentElement.classList.toggle("no-smooth-scroll", Boolean(enabled));
-    };
     const jumpToY = (y) => {
-      setInstantScrollMode(true);
       window.scrollTo({ top: Math.max(0, Math.round(y)), left: 0, behavior: "auto" });
-      requestAnimationFrame(() => setInstantScrollMode(false));
-    };
-    const ANCHOR_OFFSETS = {
-      "#catalog": { desktop: 14, mobile: 10 },
-      "#cat-pelmeni-hand": { desktop: 8, mobile: 6 },
-      "#cat-vareniki": { desktop: 8, mobile: 6 },
-      "#cat-manty": { desktop: 8, mobile: 6 },
-      "#cat-blinchiki": { desktop: 8, mobile: 6 },
-      "#cat-polufab": { desktop: 8, mobile: 6 },
-      "#cat-auto": { desktop: 8, mobile: 6 }
-    };
-    const CATEGORY_HEADING_SELECTORS = {
-      "#cat-pelmeni-hand": "#cat-pelmeni-hand .section-title h2",
-      "#cat-vareniki": "#cat-vareniki .section-title h2",
-      "#cat-manty": "#cat-manty .section-title h2",
-      "#cat-blinchiki": "#cat-blinchiki .section-title h2",
-      "#cat-polufab": "#cat-polufab .section-title h2",
-      "#cat-auto": "#cat-auto .section-title h2"
-    };
-    const getAnchorTopOffset = (hash = "") => {
-      const preset = ANCHOR_OFFSETS[hash];
-      if (!preset) return window.innerWidth <= 640 ? 10 : 14;
-      return window.innerWidth <= 640 ? preset.mobile : preset.desktop;
-    };
-    const getViewportTopSafeArea = (hash = "") => {
-      const header = document.querySelector("header");
-      const headerHeight = header ? header.getBoundingClientRect().height : 0;
-      return headerHeight + getAnchorTopOffset(hash);
-    };
-    const resolveAnchorNode = (hash) => {
-      if (!hash) return null;
-      try {
-        const headingSelector = CATEGORY_HEADING_SELECTORS[hash];
-        const node = headingSelector
-          ? document.querySelector(headingSelector) || document.querySelector(hash)
-          : document.querySelector(hash);
-        return node || null;
-      } catch (error) {
-        return null;
-      }
-    };
-    const getFixedAnchorY = (hash) => {
-      const node = resolveAnchorNode(hash);
-      if (!node) return null;
-      return Math.max(0, getScrollY() + node.getBoundingClientRect().top - getViewportTopSafeArea(hash));
-    };
-    let smoothHashRaf = 0;
-    let smoothHashToken = 0;
-    const stopSmoothHashScroll = () => {
-      smoothHashToken += 1;
-      if (smoothHashRaf) window.cancelAnimationFrame(smoothHashRaf);
-      smoothHashRaf = 0;
-      setInstantScrollMode(false);
-    };
-    const jumpToHash = (hash) => {
-      const targetY = getFixedAnchorY(hash);
-      if (targetY === null || Number.isNaN(targetY)) return false;
-      jumpToY(targetY);
-      return true;
-    };
-    const smoothScrollToHash = (hash) => {
-      const targetY = getFixedAnchorY(hash);
-      if (targetY === null || Number.isNaN(targetY)) return false;
-      stopSmoothHashScroll();
-      window.scrollTo({ top: targetY, left: 0, behavior: "smooth" });
-      return true;
-    };
-    const scrollToHash = (hash, behavior = "smooth") => (
-      behavior === "smooth" ? smoothScrollToHash(hash) : jumpToHash(hash)
-    );
-    const alignCurrentHash = () => {
-      if (!window.location.hash) return;
-      jumpToHash(window.location.hash);
     };
 
     if ("scrollRestoration" in history) {
@@ -2641,11 +2561,6 @@
       }
       jumpToY(0);
     }
-    window.addEventListener("load", alignCurrentHash, { once: true });
-    window.addEventListener("wheel", stopSmoothHashScroll, { passive: true });
-    window.addEventListener("touchstart", stopSmoothHashScroll, { passive: true });
-    window.addEventListener("mousedown", stopSmoothHashScroll, { passive: true });
-    window.addEventListener("keydown", stopSmoothHashScroll);
 
     const initFlowScrollExperience = () => {
       const stages = Array.from(document.querySelectorAll("#catalog, .category-section, .footer"));
@@ -3248,17 +3163,6 @@
 
     const navigateWithMotion = (href) => {
       if (!href) return;
-      const url = new URL(href, window.location.href);
-      const isSameDocument = url.origin === window.location.origin
-        && url.pathname === window.location.pathname;
-      if (isSameDocument && url.hash) {
-        if (scrollToHash(url.hash, "smooth")) {
-          if (window.location.hash !== url.hash) {
-            history.pushState(null, "", url.hash);
-          }
-          return;
-        }
-      }
       window.location.href = href;
     };
 
@@ -3340,9 +3244,7 @@
         && url.pathname === window.location.pathname
         && Boolean(url.hash);
       if (!isSameDocument) return;
-      event.preventDefault();
       closeCatalogMenu();
-      scheduleCatalogNavigation(href);
     });
 
     document.addEventListener("click", (event) => {

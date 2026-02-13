@@ -36,14 +36,11 @@
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
       -webkit-text-size-adjust: 100%;
       text-size-adjust: 100%;
     }
 
-    html.no-smooth-scroll {
-      scroll-behavior: auto !important;
-    }
 
     body {
       font-family: "Onest", "Prata", serif;
@@ -2387,84 +2384,8 @@
     const formatPrice = (value) => new Intl.NumberFormat("ru-RU").format(value) + " ₽";
     const formatPriceShort = (value) => new Intl.NumberFormat("ru-RU").format(value).replace(/\s/g, ".") + "р";
     const getScrollY = () => window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-    const setInstantScrollMode = (enabled) => {
-      document.documentElement.classList.toggle("no-smooth-scroll", Boolean(enabled));
-    };
     const jumpToY = (y) => {
-      setInstantScrollMode(true);
       window.scrollTo({ top: Math.max(0, Math.round(y)), left: 0, behavior: "auto" });
-      requestAnimationFrame(() => setInstantScrollMode(false));
-    };
-    const ANCHOR_OFFSETS = {
-      "#advantages": { desktop: 14, mobile: 10 },
-      "#delivery": { desktop: 14, mobile: 10 },
-      "#reviews": { desktop: 14, mobile: 10 },
-      "#faq": { desktop: 14, mobile: 10 },
-      "#order": { desktop: 14, mobile: 10 }
-    };
-    const getAnchorTopOffset = (hash = "") => {
-      const preset = ANCHOR_OFFSETS[hash];
-      if (!preset) return window.innerWidth <= 640 ? 10 : 14;
-      return window.innerWidth <= 640 ? preset.mobile : preset.desktop;
-    };
-    const resolveAnchorNode = (hash) => {
-      if (!hash) return null;
-      try {
-        const node = document.querySelector(hash);
-        if (!node) return null;
-        if (node.classList && node.classList.contains("section")) {
-          return node.querySelector(".section-title") || node;
-        }
-        return node;
-      } catch (error) {
-        return null;
-      }
-    };
-    const getFixedAnchorY = (hash) => {
-      const node = resolveAnchorNode(hash);
-      if (!node) return null;
-      return Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
-    };
-    let smoothHashToken = 0;
-    let smoothHashSettleTimer = 0;
-    const stopSmoothHashScroll = () => {
-      smoothHashToken += 1;
-      if (smoothHashSettleTimer) window.clearTimeout(smoothHashSettleTimer);
-      smoothHashSettleTimer = 0;
-      setInstantScrollMode(false);
-    };
-    const jumpToHash = (hash) => {
-      const targetY = getFixedAnchorY(hash);
-      if (targetY === null || Number.isNaN(targetY)) return false;
-      jumpToY(targetY);
-      return true;
-    };
-    const smoothScrollToHash = (hash) => {
-      const targetY = getFixedAnchorY(hash);
-      if (targetY === null || Number.isNaN(targetY)) return false;
-      stopSmoothHashScroll();
-      const token = smoothHashToken;
-      const travel = Math.abs(targetY - getScrollY());
-      const settleDelay = Math.max(260, Math.min(820, travel * 0.5));
-
-      window.scrollTo({ top: targetY, left: 0, behavior: "smooth" });
-
-      smoothHashSettleTimer = window.setTimeout(() => {
-        if (token !== smoothHashToken) return;
-        const correctedTarget = getFixedAnchorY(hash);
-        if (correctedTarget === null || Number.isNaN(correctedTarget)) return;
-        if (Math.abs(correctedTarget - getScrollY()) > 1) {
-          jumpToY(correctedTarget);
-        }
-      }, settleDelay);
-      return true;
-    };
-    const scrollToHash = (hash, behavior = "smooth") => (
-      behavior === "smooth" ? smoothScrollToHash(hash) : jumpToHash(hash)
-    );
-    const alignCurrentHash = () => {
-      if (!window.location.hash) return;
-      jumpToHash(window.location.hash);
     };
 
     if ("scrollRestoration" in history) {
@@ -2478,11 +2399,6 @@
       }
       jumpToY(0);
     }
-    window.addEventListener("load", alignCurrentHash, { once: true });
-    window.addEventListener("wheel", stopSmoothHashScroll, { passive: true });
-    window.addEventListener("touchstart", stopSmoothHashScroll, { passive: true });
-    window.addEventListener("mousedown", stopSmoothHashScroll, { passive: true });
-    window.addEventListener("keydown", stopSmoothHashScroll);
 
     const cartKey = "uralpelmeshki_cart";
     const cartMetaKey = "uralpelmeshki_cart_meta";
@@ -3112,17 +3028,6 @@
 
     const navigateWithMotion = (href) => {
       if (!href) return;
-      const url = new URL(href, window.location.href);
-      const isSameDocument = url.origin === window.location.origin
-        && url.pathname === window.location.pathname;
-      if (isSameDocument && url.hash) {
-        if (scrollToHash(url.hash, "smooth")) {
-          if (window.location.hash !== url.hash) {
-            history.pushState(null, "", url.hash);
-          }
-          return;
-        }
-      }
       window.location.href = href;
     };
 
@@ -3207,9 +3112,7 @@
         && url.pathname === window.location.pathname
         && Boolean(url.hash);
       if (!isSameDocument) return;
-      event.preventDefault();
       closeCatalogMenu();
-      navigateWithMotion(href);
     });
 
     document.addEventListener("click", (event) => {
