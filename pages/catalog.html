@@ -2566,7 +2566,6 @@
       "#cat-polufab": { desktop: 14, mobile: 10 },
       "#cat-auto": { desktop: 14, mobile: 10 }
     };
-    const anchorYCache = new Map();
     const getAnchorTopOffset = (hash = "") => {
       const preset = ANCHOR_OFFSETS[hash];
       if (!preset) return window.innerWidth <= 640 ? 10 : 14;
@@ -2583,24 +2582,40 @@
     const getFixedAnchorY = (hash) => {
       const node = resolveAnchorNode(hash);
       if (!node) return null;
-      const top = Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
-      anchorYCache.set(hash, top);
-      return top;
+      return Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
+    };
+    let hashCorrectionTimerA = 0;
+    let hashCorrectionTimerB = 0;
+    const clearHashCorrectionTimers = () => {
+      if (hashCorrectionTimerA) window.clearTimeout(hashCorrectionTimerA);
+      if (hashCorrectionTimerB) window.clearTimeout(hashCorrectionTimerB);
+      hashCorrectionTimerA = 0;
+      hashCorrectionTimerB = 0;
+    };
+    const scheduleHashCorrection = (hash, isSmooth) => {
+      clearHashCorrectionTimers();
+      const correct = () => {
+        const targetY = getFixedAnchorY(hash);
+        if (targetY === null || Number.isNaN(targetY)) return;
+        if (Math.abs(getScrollY() - targetY) <= 2) return;
+        jumpToY(targetY);
+      };
+      if (!isSmooth) {
+        hashCorrectionTimerA = window.setTimeout(correct, 0);
+        return;
+      }
+      hashCorrectionTimerA = window.setTimeout(correct, 560);
+      hashCorrectionTimerB = window.setTimeout(correct, 980);
     };
     const scrollToHash = (hash, behavior = "smooth") => {
-      const targetY = anchorYCache.get(hash) ?? getFixedAnchorY(hash);
+      const targetY = getFixedAnchorY(hash);
       if (targetY === null || Number.isNaN(targetY)) return false;
       window.scrollTo({ top: targetY, left: 0, behavior });
+      scheduleHashCorrection(hash, behavior === "smooth");
       return true;
-    };
-    const refreshAnchorCache = () => {
-      Object.keys(ANCHOR_OFFSETS).forEach((hash) => {
-        getFixedAnchorY(hash);
-      });
     };
     const alignCurrentHash = (behavior = "auto") => {
       if (!window.location.hash) return;
-      refreshAnchorCache();
       scrollToHash(window.location.hash, behavior);
     };
 
@@ -2613,13 +2628,14 @@
       jumpToY(0);
     }
     window.addEventListener("load", () => {
-      refreshAnchorCache();
       if (window.location.hash) {
         alignCurrentHash("auto");
-        window.setTimeout(() => alignCurrentHash("auto"), 240);
+        window.setTimeout(() => alignCurrentHash("auto"), 420);
       }
     }, { once: true });
-    window.addEventListener("resize", refreshAnchorCache, { passive: true });
+    window.addEventListener("resize", () => {
+      if (window.location.hash) alignCurrentHash("auto");
+    }, { passive: true });
     window.addEventListener("pageshow", (event) => {
       if (window.location.hash) {
         window.setTimeout(() => alignCurrentHash("auto"), 0);
@@ -3217,7 +3233,6 @@
       const isSameDocument = url.origin === window.location.origin
         && url.pathname === window.location.pathname;
       if (isSameDocument && url.hash) {
-        refreshAnchorCache();
         if (scrollToHash(url.hash, "smooth")) {
           if (window.location.hash !== url.hash) {
             history.pushState(null, "", url.hash);
