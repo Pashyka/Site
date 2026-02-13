@@ -42,6 +42,10 @@
       text-size-adjust: 100%;
     }
 
+    html.no-smooth-scroll {
+      scroll-behavior: auto !important;
+    }
+
     body {
       font-family: "Onest", "Prata", serif;
       color: var(--ink);
@@ -1446,7 +1450,7 @@
     }
 
     [id] {
-      scroll-margin-top: 108px;
+      scroll-margin-top: 16px;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2525,6 +2529,30 @@
   <script>
     const formatPrice = (value) => new Intl.NumberFormat("ru-RU").format(value) + " ₽";
     const formatPriceShort = (value) => new Intl.NumberFormat("ru-RU").format(value).replace(/\s/g, ".") + "р";
+    const getScrollY = () => window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    const setInstantScrollMode = (enabled) => {
+      document.documentElement.classList.toggle("no-smooth-scroll", Boolean(enabled));
+    };
+    const jumpToY = (y) => {
+      setInstantScrollMode(true);
+      window.scrollTo({ top: Math.max(0, Math.round(y)), left: 0, behavior: "auto" });
+      requestAnimationFrame(() => setInstantScrollMode(false));
+    };
+    const getAnchorTopOffset = () => (window.innerWidth <= 640 ? 10 : 14);
+    const scrollToAnchorNode = (node, behavior = "smooth") => {
+      if (!node) return;
+      const top = Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset());
+      window.scrollTo({ top, left: 0, behavior });
+    };
+
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+    const navEntry = performance.getEntriesByType("navigation")[0];
+    const navType = navEntry ? navEntry.type : "navigate";
+    if (!window.location.hash && (navType === "reload" || navType === "navigate")) {
+      jumpToY(0);
+    }
 
     const initFlowScrollExperience = () => {
       const stages = Array.from(document.querySelectorAll("#catalog, .category-section, .footer"));
@@ -2931,17 +2959,16 @@
 
     const lockPageScroll = () => {
       if (document.body.classList.contains("cart-open")) return;
-      lockedScrollY = window.scrollY || window.pageYOffset || 0;
+      lockedScrollY = Math.round(getScrollY());
       document.body.style.top = `-${lockedScrollY}px`;
       document.body.classList.add("cart-open");
     };
 
     const unlockPageScroll = () => {
       if (!document.body.classList.contains("cart-open")) return;
-      const restoreY = Math.abs(parseInt(document.body.style.top || "0", 10)) || lockedScrollY || 0;
       document.body.classList.remove("cart-open");
       document.body.style.top = "";
-      window.scrollTo(0, restoreY);
+      jumpToY(lockedScrollY || 0);
     };
 
     const openCart = () => {
@@ -3107,7 +3134,7 @@
       if (isSameDocument && url.hash) {
         const target = document.querySelector(url.hash);
         if (target) {
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          scrollToAnchorNode(target, "smooth");
           if (window.location.hash !== url.hash) {
             history.pushState(null, "", url.hash);
           }
