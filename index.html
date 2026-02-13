@@ -1771,19 +1771,7 @@
       }
 
       .nav-links {
-        order: 2;
-        flex: 1 1 auto;
-        min-width: 0;
-        justify-content: flex-start;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding-bottom: 2px;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      }
-
-      .nav-links::-webkit-scrollbar {
-        display: none;
+        gap: 14px;
       }
 
       .nav-cta {
@@ -1808,10 +1796,10 @@
       }
 
       .nav {
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
         align-items: center;
-        gap: 10px;
-        flex-wrap: nowrap;
+        gap: 12px;
       }
 
       .logo img {
@@ -1819,15 +1807,18 @@
       }
 
       .nav-links {
-        order: 2;
-        width: auto;
-        justify-content: flex-start;
-        gap: 12px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, max-content));
+        justify-content: start;
+        align-content: center;
+        gap: 4px 16px;
+        min-width: 0;
+        font-size: 16px;
+        line-height: 1.2;
       }
 
       .nav-cta {
-        order: 3;
-        width: auto;
+        width: max-content;
         justify-content: flex-end;
         flex-wrap: nowrap;
         flex-shrink: 0;
@@ -1864,6 +1855,18 @@
     }
 
     @media (max-width: 640px) {
+      .container {
+        width: min(1160px, calc(100vw - 24px));
+      }
+
+      .nav {
+        gap: 10px;
+      }
+
+      .logo img {
+        height: 44px;
+      }
+
       .hero {
         padding: 80px 0 72px;
       }
@@ -1915,8 +1918,13 @@
       }
 
       .nav-links {
-        gap: 10px;
+        grid-template-columns: repeat(2, minmax(0, max-content));
+        gap: 4px 14px;
         font-size: 15px;
+      }
+
+      .nav-links a {
+        white-space: normal;
       }
 
       .nav-cta .btn {
