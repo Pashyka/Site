@@ -2559,27 +2559,28 @@
     };
     const ANCHOR_OFFSETS = {
       "#catalog": { desktop: 14, mobile: 10 },
-      "#cat-pelmeni-hand": { desktop: 14, mobile: 10 },
-      "#cat-vareniki": { desktop: 14, mobile: 10 },
-      "#cat-manty": { desktop: 14, mobile: 10 },
-      "#cat-blinchiki": { desktop: 14, mobile: 10 },
-      "#cat-polufab": { desktop: 14, mobile: 10 },
-      "#cat-auto": { desktop: 14, mobile: 10 }
+      "#cat-pelmeni-hand": { desktop: 8, mobile: 6 },
+      "#cat-vareniki": { desktop: 8, mobile: 6 },
+      "#cat-manty": { desktop: 8, mobile: 6 },
+      "#cat-blinchiki": { desktop: 8, mobile: 6 },
+      "#cat-polufab": { desktop: 8, mobile: 6 },
+      "#cat-auto": { desktop: 8, mobile: 6 }
     };
     const getAnchorTopOffset = (hash = "") => {
       const preset = ANCHOR_OFFSETS[hash];
       if (!preset) return window.innerWidth <= 640 ? 10 : 14;
       return window.innerWidth <= 640 ? preset.mobile : preset.desktop;
     };
+    const getViewportTopSafeArea = (hash = "") => {
+      const header = document.querySelector("header");
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      return headerHeight + getAnchorTopOffset(hash);
+    };
     const resolveAnchorNode = (hash) => {
       if (!hash) return null;
       try {
         const node = document.querySelector(hash);
-        if (!node) return null;
-        if (node.classList && node.classList.contains("category-section")) {
-          return node.querySelector(".section-title") || node;
-        }
-        return node;
+        return node || null;
       } catch (error) {
         return null;
       }
@@ -2587,7 +2588,7 @@
     const getFixedAnchorY = (hash) => {
       const node = resolveAnchorNode(hash);
       if (!node) return null;
-      return Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
+      return Math.max(0, getScrollY() + node.getBoundingClientRect().top - getViewportTopSafeArea(hash));
     };
     let smoothHashRaf = 0;
     let smoothHashToken = 0;
@@ -2627,11 +2628,13 @@
         const currentY = getScrollY();
         const delta = targetY - currentY;
         if (elapsed >= minDuration && Math.abs(delta) <= 0.8) {
+          jumpToY(targetY);
           smoothHashRaf = 0;
           setInstantScrollMode(false);
           return;
         }
         if (elapsed >= maxDuration) {
+          jumpToY(targetY);
           smoothHashRaf = 0;
           setInstantScrollMode(false);
           return;
