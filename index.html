@@ -2402,7 +2402,6 @@
       "#faq": { desktop: 14, mobile: 10 },
       "#order": { desktop: 14, mobile: 10 }
     };
-    const anchorYCache = new Map();
     const getAnchorTopOffset = (hash = "") => {
       const preset = ANCHOR_OFFSETS[hash];
       if (!preset) return window.innerWidth <= 640 ? 10 : 14;
@@ -2411,7 +2410,12 @@
     const resolveAnchorNode = (hash) => {
       if (!hash) return null;
       try {
-        return document.querySelector(hash);
+        const node = document.querySelector(hash);
+        if (!node) return null;
+        if (node.classList && node.classList.contains("section")) {
+          return node.querySelector(".section-title") || node;
+        }
+        return node;
       } catch (error) {
         return null;
       }
@@ -2419,25 +2423,68 @@
     const getFixedAnchorY = (hash) => {
       const node = resolveAnchorNode(hash);
       if (!node) return null;
-      const top = Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
-      anchorYCache.set(hash, top);
-      return top;
+      return Math.max(0, getScrollY() + node.getBoundingClientRect().top - getAnchorTopOffset(hash));
     };
-    const scrollToHash = (hash, behavior = "smooth") => {
-      const targetY = anchorYCache.get(hash) ?? getFixedAnchorY(hash);
+    let smoothHashRaf = 0;
+    let smoothHashToken = 0;
+    const stopSmoothHashScroll = () => {
+      smoothHashToken += 1;
+      if (smoothHashRaf) window.cancelAnimationFrame(smoothHashRaf);
+      smoothHashRaf = 0;
+      setInstantScrollMode(false);
+    };
+    const jumpToHash = (hash) => {
+      const targetY = getFixedAnchorY(hash);
       if (targetY === null || Number.isNaN(targetY)) return false;
-      window.scrollTo({ top: targetY, left: 0, behavior });
+      jumpToY(targetY);
       return true;
     };
-    const refreshAnchorCache = () => {
-      Object.keys(ANCHOR_OFFSETS).forEach((hash) => {
-        getFixedAnchorY(hash);
-      });
+    const smoothScrollToHash = (hash) => {
+      const startTarget = getFixedAnchorY(hash);
+      if (startTarget === null || Number.isNaN(startTarget)) return false;
+      stopSmoothHashScroll();
+      setInstantScrollMode(true);
+      const token = smoothHashToken;
+      const startTime = performance.now();
+      const startY = getScrollY();
+      const initialDistance = Math.abs(startTarget - startY);
+      const minDuration = Math.max(300, Math.min(560, initialDistance * 0.45));
+      const maxDuration = Math.max(900, Math.min(1500, initialDistance * 1.15 + 420));
+
+      const frame = (now) => {
+        if (token !== smoothHashToken) return;
+        const elapsed = now - startTime;
+        const targetY = getFixedAnchorY(hash);
+        if (targetY === null || Number.isNaN(targetY)) {
+          smoothHashRaf = 0;
+          setInstantScrollMode(false);
+          return;
+        }
+        const currentY = getScrollY();
+        const delta = targetY - currentY;
+        if (elapsed >= minDuration && Math.abs(delta) <= 0.8) {
+          smoothHashRaf = 0;
+          setInstantScrollMode(false);
+          return;
+        }
+        if (elapsed >= maxDuration) {
+          smoothHashRaf = 0;
+          setInstantScrollMode(false);
+          return;
+        }
+        const blend = elapsed < minDuration ? 0.22 : 0.3;
+        window.scrollTo({ top: currentY + delta * blend, left: 0, behavior: "auto" });
+        smoothHashRaf = window.requestAnimationFrame(frame);
+      };
+      smoothHashRaf = window.requestAnimationFrame(frame);
+      return true;
     };
-    const alignCurrentHash = (behavior = "auto") => {
+    const scrollToHash = (hash, behavior = "smooth") => (
+      behavior === "smooth" ? smoothScrollToHash(hash) : jumpToHash(hash)
+    );
+    const alignCurrentHash = () => {
       if (!window.location.hash) return;
-      refreshAnchorCache();
-      scrollToHash(window.location.hash, behavior);
+      jumpToHash(window.location.hash);
     };
 
     if ("scrollRestoration" in history) {
@@ -2445,24 +2492,18 @@
     }
     const navEntry = performance.getEntriesByType("navigation")[0];
     const navType = navEntry ? navEntry.type : "navigate";
-    if (!window.location.hash && (navType === "reload" || navType === "navigate")) {
+    if (navType === "reload") {
+      if (window.location.hash) {
+        history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+      }
       jumpToY(0);
     }
-    window.addEventListener("load", () => {
-      refreshAnchorCache();
-      if (window.location.hash) {
-        alignCurrentHash("auto");
-        window.setTimeout(() => alignCurrentHash("auto"), 240);
-      }
-    }, { once: true });
-    window.addEventListener("resize", refreshAnchorCache, { passive: true });
-    window.addEventListener("pageshow", (event) => {
-      if (window.location.hash) {
-        window.setTimeout(() => alignCurrentHash("auto"), 0);
-        return;
-      }
-      if (event.persisted) jumpToY(0);
-    });
+    window.addEventListener("load", alignCurrentHash, { once: true });
+    window.addEventListener("resize", alignCurrentHash, { passive: true });
+    window.addEventListener("wheel", stopSmoothHashScroll, { passive: true });
+    window.addEventListener("touchstart", stopSmoothHashScroll, { passive: true });
+    window.addEventListener("mousedown", stopSmoothHashScroll, { passive: true });
+    window.addEventListener("keydown", stopSmoothHashScroll);
 
     const cartKey = "uralpelmeshki_cart";
     const cartMetaKey = "uralpelmeshki_cart_meta";
@@ -3096,7 +3137,6 @@
       const isSameDocument = url.origin === window.location.origin
         && url.pathname === window.location.pathname;
       if (isSameDocument && url.hash) {
-        refreshAnchorCache();
         if (scrollToHash(url.hash, "smooth")) {
           if (window.location.hash !== url.hash) {
             history.pushState(null, "", url.hash);
